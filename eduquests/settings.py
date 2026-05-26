@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'gamification',
     'levels',
     'subjects',
+    'quizzes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
