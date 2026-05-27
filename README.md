@@ -73,12 +73,11 @@ Users can learn through interactive levels, earn XP, unlock achievements, and co
 ```bash
 EduQuests/
 │
-├── users/
+├── accounts/
 ├── quizzes/
 ├── subjects/
 ├── levels/
-├── progress/
-├── leaderboard/
+├── gamification/
 │
 ├── templates/
 ├── static/
