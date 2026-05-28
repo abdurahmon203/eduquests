@@ -93,3 +93,8 @@ def login_view(request):
             messages.error(request, "Invalid credentials")
 
     return render(request, "accounts/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
