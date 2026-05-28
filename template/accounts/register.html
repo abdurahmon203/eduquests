@@ -1,5 +1,28 @@
-{% extends 'base.html' %} 
-{% block title %} Register {% endblock %} 
+{% extends 'base.html' %} {% block title %} Register {% endblock %}
 {% block main_content %}
-<h1>Register Page</h1>
+
+<h1>Register</h1>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <input type="text" name="first_name" placeholder="First Name" />
+
+  <input type="text" name="last_name" placeholder="Last Name" />
+
+  <input type="text" name="username" placeholder="Username" />
+
+  <input type="email" name="email" placeholder="Email" />
+
+  <input type="password" name="password" placeholder="Password" />
+
+  <input
+    type="password"
+    name="confirm_password"
+    placeholder="Confirm Password"
+  />
+
+  <button type="submit">Register</button>
+</form>
+
 {% endblock %}
