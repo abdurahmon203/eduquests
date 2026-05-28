@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Verify Code</h1>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <input type="text" name="code" placeholder="6 digit code" />
+
+  <button type="submit">Verify</button>
+</form>
+
+<script>
+  let time = 90;
+
+  setInterval(() => {
+    time--;
+
+    console.log(time);
+  }, 1000);
+</script>
+
+{% endblock %}
