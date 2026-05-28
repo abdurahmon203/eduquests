@@ -3,10 +3,14 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
-    score = models.IntegerField(default=0)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
+    score = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
-        return self.username
+        return self.email
