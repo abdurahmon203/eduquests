@@ -70,7 +70,7 @@ def verify_view(request):
             user.otp_code = None
             user.save()
             login(request, user)
-            return redirect("home")
+            return redirect("register")
         else:
             messages.error(request, "Invalid code")
 
@@ -86,7 +86,7 @@ def login_view(request):
 
             login(request, user)
 
-            return redirect("home")
+            return redirect("register")
 
         else:
 
