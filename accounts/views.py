@@ -50,3 +50,28 @@ def register_view(request):
         return redirect("verify")
 
     return render(request, "accounts/register.html")
+
+
+def verify_view(request):
+    email = request.session.get("email")
+    if not email:
+        return redirect("register")
+    user = User.objects.get(email=email)
+
+    if request.method == "POST":
+        code = request.POST.get("code")
+        if timezone.now() > user.otp_created_at + timedelta(minutes=1, seconds=30):
+            messages.error(request, "Code expired")
+            return redirect("register")
+
+        if code == user.otp_code:
+            user.is_verified = True
+            user.is_active = True
+            user.otp_code = None
+            user.save()
+            login(request, user)
+            return redirect("home")
+        else:
+            messages.error(request, "Invalid code")
+
+    return render(request, "accounts/verify.html")
