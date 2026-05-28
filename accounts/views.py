@@ -75,3 +75,21 @@ def verify_view(request):
             messages.error(request, "Invalid code")
 
     return render(request, "accounts/verify.html")
+
+
+def login_view(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+
+            login(request, user)
+
+            return redirect("home")
+
+        else:
+
+            messages.error(request, "Invalid credentials")
+
+    return render(request, "accounts/login.html")
