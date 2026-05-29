@@ -1,21 +1,16 @@
-from django.db.models import Count, F, IntegerField, Q, Sum, Value
-from django.db.models.functions import Coalesce, Greatest
+from django.db.models import Count, Q, Sum, Value
+from django.db.models.functions import Coalesce
 from django.shortcuts import render
 
 from .models import UserProgress
+from .xp import ROW_XP, get_user_completed_levels, get_user_total_xp
 
 
 def leaderboard(request):
-    row_xp = Greatest(
-        Coalesce(F("xp_earned"), Value(0)),
-        F("score"),
-        output_field=IntegerField(),
-    )
-
     stats = (
         UserProgress.objects.values("user_id", "user__username")
         .annotate(
-            total_xp=Coalesce(Sum(row_xp), Value(0)),
+            total_xp=Coalesce(Sum(ROW_XP), Value(0)),
             completed_levels=Count("pk", filter=Q(is_completed=True)),
         )
         .filter(total_xp__gt=0)
@@ -48,25 +43,19 @@ def leaderboard(request):
                 break
 
         if current_user_entry is None:
-            user_stats = (
-                UserProgress.objects.filter(user=request.user)
-                .aggregate(
-                    total_xp=Coalesce(Sum(row_xp), Value(0)),
-                    completed_levels=Count("pk", filter=Q(is_completed=True)),
-                )
-            )
-            if user_stats["total_xp"] and user_stats["total_xp"] > 0:
+            total_xp = get_user_total_xp(request.user)
+            if total_xp > 0:
                 higher_count = (
                     UserProgress.objects.values("user_id")
-                    .annotate(total_xp=Coalesce(Sum(row_xp), Value(0)))
-                    .filter(total_xp__gt=user_stats["total_xp"])
+                    .annotate(total_xp=Coalesce(Sum(ROW_XP), Value(0)))
+                    .filter(total_xp__gt=total_xp)
                     .count()
                 )
                 current_user_entry = {
                     "rank": higher_count + 1,
                     "username": request.user.username,
-                    "total_xp": user_stats["total_xp"],
-                    "completed_levels": user_stats["completed_levels"],
+                    "total_xp": total_xp,
+                    "completed_levels": get_user_completed_levels(request.user),
                     "is_current_user": True,
                 }
 

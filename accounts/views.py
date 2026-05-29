@@ -8,6 +8,8 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from gamification.xp import get_user_completed_levels, get_user_total_xp, sync_user_score
+
 from .models import User
 from .forms import (
     ContactForm,
@@ -261,12 +263,18 @@ def profile_view(request):
                 for err in password_form.non_field_errors():
                     messages.error(request, err)
 
+    sync_user_score(user)
+    total_xp = get_user_total_xp(user)
+    completed_levels = get_user_completed_levels(user)
+
     return render(
         request,
         "accounts/profile.html",
         {
             "profile_form": profile_form,
             "password_form": password_form,
+            "total_xp": total_xp,
+            "completed_levels": completed_levels,
         },
     )
 

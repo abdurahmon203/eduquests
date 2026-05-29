@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Learn - Video Lessons - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="{% url 'home' %}">Home</a>
+      <span>/</span>
+      {% if has_subjects_url %}
+      <a href="{{ subjects_url }}">Subjects</a>
+      <span>/</span>
+      {% endif %}
+      <span>Learn</span>
+    </nav>
+    <h1 class="page-title">Video Lessons</h1>
+    <p class="page-subtitle">Watch lessons, then take the quiz to earn XP and climb the leaderboard.</p>
+  </div>
+</div>
+
+<section class="learn-section learn-videos-section">
+  <div class="container">
+    {% if levels %}
+    <div class="learn-video-grid">
+      {% for level in levels %}
+      <article class="learn-video-card" id="level-{{ level.id }}">
+        <div class="learn-video-card-header">
+          <div class="level-meta">
+            <span class="badge badge-indigo">{{ level.subject.name }}</span>
+            <span class="badge badge-cyan">Level {{ level.level_number }}</span>
+          </div>
+          <h2>{{ level.title }}</h2>
+          {% if level.description %}
+          <p class="learn-video-desc">{{ level.description }}</p>
+          {% endif %}
+        </div>
+
+        {% if level.youtube_video_id %}
+        <div class="learn-video-player">
+          <iframe
+            src="https://www.youtube.com/embed/{{ level.youtube_video_id }}"
+            title="{{ level.title }}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        {% else %}
+        <div class="learn-video-missing">
+          <p>Video link is not available for this lesson yet.</p>
+        </div>
+        {% endif %}
+
+        <div class="learn-video-actions">
+          <a href="{% url 'quiz' level.id %}" class="btn btn-primary">Take Quiz</a>
+          <a href="{% url 'level_list' level.subject.id %}" class="btn btn-secondary">All Levels</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h3>No video lessons yet</h3>
+      <p>Lessons with a YouTube link will appear here.</p>
+      {% if has_subjects_url %}
+      <a href="{{ subjects_url }}" class="btn btn-primary mt-4">Browse Subjects</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

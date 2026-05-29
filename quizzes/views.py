@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from levels.models import Level
 from .models import Question
 from gamification.models import UserProgress
+from gamification.xp import sync_user_score
 from django.utils import timezone
 
 
@@ -27,7 +28,6 @@ def quiz_view(request, level_id):
             user=request.user,
             level=level,
         )
-        was_completed = progress.is_completed
         progress.score = score
         progress.xp_earned = max(progress.xp_earned, xp)
         progress.attempts += 1
@@ -35,11 +35,7 @@ def quiz_view(request, level_id):
         if is_completed and not progress.completed_at:
             progress.completed_at = timezone.now()
         progress.save()
-
-        # Update user's profile score if newly completed
-        if is_completed and not was_completed:
-            request.user.score += xp
-            request.user.save()
+        sync_user_score(request.user)
 
         request.session["score"] = score
         return redirect("quiz_result", level_id=level.id)

@@ -26,6 +26,11 @@ def level_list(request, subject_id):
 
 
 def learn_vidios(request):
-    levels = Level.objects.all()
+    levels = (
+        Level.objects.select_related("subject")
+        .exclude(video_url__isnull=True)
+        .exclude(video_url="")
+        .order_by("subject__name", "level_number")
+    )
 
     return render(request, "levels/learn.html", {"levels": levels})

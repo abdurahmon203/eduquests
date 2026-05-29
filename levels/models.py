@@ -23,3 +23,18 @@ class Level(models.Model):
 
     def __str__(self):
         return f"{self.subject.name} - Level {self.level_number}"
+
+    @property
+    def youtube_video_id(self):
+        url = (self.video_url or "").strip()
+        if not url:
+            return ""
+        if "youtu.be/" in url:
+            return url.split("youtu.be/")[-1].split("?")[0][:11]
+        if "v=" in url:
+            return url.split("v=")[-1].split("&")[0][:11]
+        if "/embed/" in url:
+            return url.split("/embed/")[-1].split("?")[0][:11]
+        if len(url) == 11 and "/" not in url:
+            return url
+        return ""
