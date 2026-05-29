@@ -1,5 +1,7 @@
 from django.db import models
 from subjects.models import Subject
+import re
+from urllib.parse import urlparse, parse_qs
 
 
 class Level(models.Model):
@@ -27,14 +29,13 @@ class Level(models.Model):
     @property
     def youtube_video_id(self):
         url = (self.video_url or "").strip()
-        if not url:
-            return ""
-        if "youtu.be/" in url:
-            return url.split("youtu.be/")[-1].split("?")[0][:11]
-        if "v=" in url:
-            return url.split("v=")[-1].split("&")[0][:11]
-        if "/embed/" in url:
-            return url.split("/embed/")[-1].split("?")[0][:11]
-        if len(url) == 11 and "/" not in url:
-            return url
-        return ""
+
+        if "youtu.be" in url:
+            return url.split("/")[-1].split("?")[0]
+
+        if "youtube.com" in url:
+            parsed = urlparse(url)
+            return parse_qs(parsed.query).get("v", [""])[0]
+
+        match = re.search(r"([a-zA-Z0-9_-]{11})", url)
+        return match.group(1) if match else ""

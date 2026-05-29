@@ -1,7 +1,5 @@
-{% extends 'base.html' %}
-
-{% block title %}Learn - Video Lessons - EduQuests{% endblock %}
-
+{% extends 'base.html' %} 
+{% block title %}Learn - Video Lessons -EduQuests{%endblock %}
 {% block main_content %}
 <div class="page-header">
   <div class="container">
@@ -15,7 +13,9 @@
       <span>Learn</span>
     </nav>
     <h1 class="page-title">Video Lessons</h1>
-    <p class="page-subtitle">Watch lessons, then take the quiz to earn XP and climb the leaderboard.</p>
+    <p class="page-subtitle">
+      Watch lessons, then take the quiz to earn XP and climb the leaderboard.
+    </p>
   </div>
 </div>
 
@@ -41,10 +41,10 @@
           <iframe
             src="https://www.youtube.com/embed/{{ level.youtube_video_id }}"
             title="{{ level.title }}"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
-            loading="lazy"
-          ></iframe>
+          >
+          </iframe>
         </div>
         {% else %}
         <div class="learn-video-missing">
@@ -53,8 +53,14 @@
         {% endif %}
 
         <div class="learn-video-actions">
-          <a href="{% url 'quiz' level.id %}" class="btn btn-primary">Take Quiz</a>
-          <a href="{% url 'level_list' level.subject.id %}" class="btn btn-secondary">All Levels</a>
+          <a href="{% url 'quiz' level.id %}" class="btn btn-primary"
+            >Take Quiz</a
+          >
+          <a
+            href="{% url 'level_list' level.subject.id %}"
+            class="btn btn-secondary"
+            >All Levels</a
+          >
         </div>
       </article>
       {% endfor %}
@@ -64,7 +70,9 @@
       <h3>No video lessons yet</h3>
       <p>Lessons with a YouTube link will appear here.</p>
       {% if has_subjects_url %}
-      <a href="{{ subjects_url }}" class="btn btn-primary mt-4">Browse Subjects</a>
+      <a href="{{ subjects_url }}" class="btn btn-primary mt-4"
+        >Browse Subjects</a
+      >
       {% endif %}
     </div>
     {% endif %}
