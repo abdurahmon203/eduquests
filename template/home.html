@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}EduQuests - Learn Smarter, Not Harder{% endblock %}
+
+{% block main_content %}
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <span class="hero-tag">
+        <span class="badge badge-indigo">New</span> Gamified Learning Platform
+      </span>
+      <h1 class="hero-title">
+        Learn <span class="gradient-text">Smarter</span>,<br />Not Harder
+      </h1>
+      <p class="hero-subtitle">
+        EduQuest helps you reach your goals with powerful courses. Study, compete with peers, and level up your skills in a gamified landscape.
+      </p>
+      <div class="hero-actions">
+        {% if request.user.is_authenticated %}
+          <a href="{{ subjects_url }}" class="btn btn-primary">Get Started</a>
+          <a href="{{ subjects_url }}" class="btn btn-outline">Start Now</a>
+        {% else %}
+          <a href="/register/" class="btn btn-primary">Get Started</a>
+          <a href="/register/" class="btn btn-outline">Start Now</a>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <!-- 3D/SaaS Canvas Mockup -->
+      <div class="canvas-mockup">
+        <div class="mockup-header">
+          <div class="mockup-dots">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+          </div>
+          <div class="mockup-search"></div>
+        </div>
+        <div class="mockup-quest-card">
+          <div class="mockup-quest-title">
+            <span>🎮</span> Current Quest: Introduction to Python
+          </div>
+          <div class="mockup-progress-bar">
+            <div class="mockup-progress-fill"></div>
+          </div>
+        </div>
+        <div class="mockup-list">
+          <div class="mockup-item">
+            <div class="mockup-item-left">
+              <span>01</span> Basic Syntax Mission
+            </div>
+            <span class="mockup-xp">+50 XP</span>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-item-left">
+              <span>02</span> Loops and Conditionals
+            </div>
+            <span class="mockup-xp">+80 XP</span>
+          </div>
+          <div class="mockup-item">
+            <div class="mockup-item-left">
+              <span>03</span> Function Defining Challenge
+            </div>
+            <span class="mockup-xp">+120 XP</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Floating Badges/Cards -->
+      <div class="floating-card fc-1">
+        <div class="fc-icon">🔥</div>
+        <div class="fc-text">
+          <h4>3 Day Streak</h4>
+          <p>You're on fire!</p>
+        </div>
+      </div>
+      <div class="floating-card fc-2">
+        <div class="fc-icon cyan">🏆</div>
+        <div class="fc-text">
+          <h4>Leaderboard</h4>
+          <p>Abdurahmon is #1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="section-padding">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Key Features</span>
+      <h2 class="section-title">Built for Interactive Thinkers</h2>
+      <p class="section-subtitle">Ditch the boring lectures. EduQuests gamifies the entire curriculum to keep you motivated and advancing.</p>
+    </div>
+    
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">🎮</div>
+        <h3>Missions Instead of Lessons</h3>
+        <p>Learn through engaging, game-like challenges! Solve problems, earn multipliers, and lock in concepts through active recall and sandbox environments.</p>
+      </div>
+      
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">👩‍🏫</div>
+        <h3>Learn to Complete All Tasks</h3>
+        <p>Study and accomplish every task with ease. Break down complicated engineering, science, or language subjects into micro-milestones that are easy to digest.</p>
+      </div>
+      
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">📈</div>
+        <h3>Leaderboard</h3>
+        <p>Compete with peers and climb the ranks. Showcase your achievements, track your global points, and push yourself to stay at the top of the weekly league.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="section-padding how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Simple Process</span>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Your pathway to mastering new skills, one quest at a time.</p>
+    </div>
+    
+    <div class="steps-container">
+      <!-- Step 1 -->
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Choose Subject</h3>
+        <p>Browse through our library of specialized tech, math, science, and logic courses.</p>
+      </div>
+      
+      <!-- Step 2 -->
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Complete Missions</h3>
+        <p>Finish bite-sized tasks, write code, run experiments, and verify your answers.</p>
+      </div>
+      
+      <!-- Step 3 -->
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>Earn XP</h3>
+        <p>Accumulate experience points for each successfully solved query or challenge.</p>
+      </div>
+      
+      <!-- Step 4 -->
+      <div class="step-card">
+        <div class="step-number">04</div>
+        <h3>Climb Leaderboard</h3>
+        <p>Match your score against friends, level up, and achieve legendary master status.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+  <div class="container cta-container">
+    <h2 class="cta-title">Ready to Begin Your Quest?</h2>
+    <p class="cta-subtitle">Join EduQuests — where learning becomes an adventure!</p>
+    <div>
+      {% if request.user.is_authenticated %}
+        <a href="{{ subjects_url }}" class="btn btn-primary">Start Now</a>
+      {% else %}
+        <a href="/register/" class="btn btn-primary">Start Now</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

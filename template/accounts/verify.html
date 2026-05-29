@@ -1,23 +1,53 @@
-{% extends 'base.html' %} {% block main_content %}
+{% extends 'base.html' %}
 
-<h1>Verify Code</h1>
+{% block title %}Verify Code - EduQuests{% endblock %}
 
-<form method="POST">
-  {% csrf_token %}
-
-  <input type="text" name="code" placeholder="6 digit code" />
-
-  <button type="submit">Verify</button>
-</form>
+{% block main_content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">Edu<span>Quests</span></div>
+      <h2 class="auth-title">Verify Your Email</h2>
+      <p class="auth-subtitle">We sent a 6-digit verification code to your email address.</p>
+    </div>
+    
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="code_input">Verification Code</label>
+        <input type="text" id="code_input" name="code" class="form-input text-center" placeholder="123456" maxlength="6" style="letter-spacing: 8px; font-size: 24px; font-weight: 800;" required />
+      </div>
+      
+      <button type="submit" class="btn btn-primary form-submit-btn">Verify Account</button>
+    </form>
+    
+    <div class="auth-footer">
+      <p id="timer-text">Code expires in <span id="timer-countdown" style="font-weight: 700; color: var(--color-danger);">1:30</span></p>
+      <p id="resend-text" style="display: none;">Didn't receive the code or is it expired? <a href="{% url 'register' %}">Try Registering Again</a></p>
+    </div>
+  </div>
+</div>
 
 <script>
-  let time = 90;
+  let time = 90; // 90 seconds = 1 minute 30 seconds
+  const countdownEl = document.getElementById('timer-countdown');
+  const timerTextEl = document.getElementById('timer-text');
+  const resendTextEl = document.getElementById('resend-text');
 
-  setInterval(() => {
+  const interval = setInterval(() => {
     time--;
-
-    console.log(time);
+    
+    if (time <= 0) {
+      clearInterval(interval);
+      countdownEl.innerText = "0:00";
+      timerTextEl.style.display = 'none';
+      resendTextEl.style.display = 'block';
+    } else {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      countdownEl.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
   }, 1000);
 </script>
-
 {% endblock %}

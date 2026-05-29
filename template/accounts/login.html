@@ -1,15 +1,35 @@
-{% extends 'base.html' %} {% block main_content %}
+{% extends 'base.html' %}
 
-<h1>Login</h1>
+{% block title %}Login - EduQuests{% endblock %}
 
-<form method="POST">
-  {% csrf_token %}
-
-  <input type="email" name="email" placeholder="Email" />
-
-  <input type="password" name="password" placeholder="Password" />
-
-  <button type="submit">Login</button>
-</form>
-
+{% block main_content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">Edu<span>Quests</span></div>
+      <h2 class="auth-title">Welcome Back</h2>
+      <p class="auth-subtitle">Don't have an account? <a href="{% url 'register' %}">Sign Up</a></p>
+    </div>
+    
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="username_input">Email or Username</label>
+        <input type="text" id="username_input" name="username" class="form-input" placeholder="Enter your email or username" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="password_input">Password</label>
+        <input type="password" id="password_input" name="password" class="form-input" placeholder="••••••••" required />
+      </div>
+      
+      <button type="submit" class="btn btn-primary form-submit-btn">Login</button>
+    </form>
+    
+    <div class="auth-footer">
+      <p><a href="#">Forgot your password?</a></p>
+    </div>
+  </div>
+</div>
 {% endblock %}

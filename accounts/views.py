@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from .models import User
+from .forms import ContactForm
 
 
 def register_view(request):
@@ -70,7 +71,7 @@ def verify_view(request):
             user.otp_code = None
             user.save()
             login(request, user)
-            return redirect("register")
+            return redirect("home")
         else:
             messages.error(request, "Invalid code")
 
@@ -79,17 +80,15 @@ def verify_view(request):
 
 def login_view(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+        username = request.POST.get("username")
         password = request.POST.get("password")
-        user = authenticate(request, email=email, password=password)
+
+        user = authenticate(request, username=username, password=password)
+
         if user is not None:
-
             login(request, user)
-
-            return redirect("register")
-
+            return redirect("home")
         else:
-
             messages.error(request, "Invalid credentials")
 
     return render(request, "accounts/login.html")
@@ -98,3 +97,24 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+
+def home_view(request):
+    return render(request, "home.html")
+
+
+def about_view(request):
+    return render(request, "about.html")
+
+
+def contact_view(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            messages.success(request, "Your message has been sent successfully! We will get back to you shortly.")
+            return redirect("contact")
+        else:
+            messages.error(request, "There was an error in your submission. Please check the fields below.")
+    else:
+        form = ContactForm()
+    return render(request, "contact.html", {"form": form})

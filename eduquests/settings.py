@@ -66,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "accounts.context_processors.eduquests_context",
             ],
         },
     },
@@ -130,3 +131,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "nazirovabdurahmon222@gmail.com"
 EMAIL_HOST_PASSWORD = "jebg kuvl dwyz dkpb"
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailOrUsernameBackend',
+]

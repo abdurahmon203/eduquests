@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - EduQuests{% endblock %}
+
+{% block main_content %}
+<!-- Page Header -->
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title">Our Story & Mission</h1>
+    <p class="page-subtitle">Reimagining educational technology through gamified pathways, engagement-first methods, and community competition.</p>
+  </div>
+</div>
+
+<!-- What is EduQuests Section -->
+<section class="section-padding">
+  <div class="container about-grid">
+    <div class="about-text">
+      <h2>What is EduQuests?</h2>
+      <p>
+        EduQuests is an innovative educational platform built to transform the standard academic curriculum into a series of rewarding quests. Instead of reading endless chapters and sitting through passive video lectures, users learn by solving interactive problems, compiling solutions, and writing active sandboxed code.
+      </p>
+      <p>
+        We believe that education shouldn't feel like a chore. By blending behavioral game design mechanics—such as experience points (XP), learning streaks, leveling structures, and leaderboard mechanics—with modern pedagogy, we help students build persistent habits and master skills faster.
+      </p>
+    </div>
+    
+    <!-- Statistics / Visuals -->
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Completion Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">150K+</div>
+        <div class="stat-label">Missions Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4.9★</div>
+        <div class="stat-label">User Satisfaction</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3.5x</div>
+        <div class="stat-label">Faster Learning Speed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Different Section -->
+<section class="section-padding" style="background-color: white; border-top: var(--border-default);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Differentiator</span>
+      <h2 class="section-title">Why EduQuests is Different</h2>
+      <p class="section-subtitle">We build for behavioral design and active immersion rather than passive observation.</p>
+    </div>
+    
+    <div class="features-grid">
+      <!-- Differentiator 1 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper" style="background-color: #ecfdf5; color: #10b981;">⚡</div>
+        <h3>Active Habit Building</h3>
+        <p>Our platform uses streak metrics and micro-rewards to encourage daily practice, helping users form permanent cognitive routines and learn progressively.</p>
+      </div>
+      
+      <!-- Differentiator 2 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper" style="background-color: #fdf2f8; color: #db2777;">🎯</div>
+        <h3>Outcome-Driven Quests</h3>
+        <p>Every lesson is structured as a mission. You learn syntax, history, or equations because you need them to solve the immediate challenge, driving higher retention.</p>
+      </div>
+      
+      <!-- Differentiator 3 -->
+      <div class="feature-card">
+        <div class="feature-icon-wrapper" style="background-color: #eff6ff; color: #2563eb;">🤝</div>
+        <h3>Healthy Competition</h3>
+        <p>Learn with a team. Our leaderboard system introduces positive peer pressure, inspiring students to collaborate and push each other further.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA section -->
+<section class="cta-section">
+  <div class="container cta-container">
+    <h2 class="cta-title">Ready to Experience Gamified Learning?</h2>
+    <p class="cta-subtitle">Begin your education quest today and build skills that last.</p>
+    <div>
+      {% if request.user.is_authenticated %}
+        <a href="{{ subjects_url }}" class="btn btn-primary">Go to Dashboard</a>
+      {% else %}
+        <a href="/register/" class="btn btn-primary">Join EduQuests Now</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
