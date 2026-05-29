@@ -11,7 +11,6 @@ ROW_XP = Greatest(
 
 
 def get_user_total_xp(user):
-    """Total XP from all level progress (same logic as leaderboard)."""
     if not user or not user.pk:
         return 0
     result = UserProgress.objects.filter(user=user).aggregate(
@@ -27,7 +26,6 @@ def get_user_completed_levels(user):
 
 
 def sync_user_score(user):
-    """Keep User.score in sync with aggregated progress XP."""
     total = get_user_total_xp(user)
     if user.score != total:
         user.score = total

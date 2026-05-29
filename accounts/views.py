@@ -1,15 +1,16 @@
 import random
 from datetime import timedelta
-
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-from gamification.xp import get_user_completed_levels, get_user_total_xp, sync_user_score
-
+from gamification.xp import (
+    get_user_completed_levels,
+    get_user_total_xp,
+    sync_user_score,
+)
 from .models import User
 from .forms import (
     ContactForm,
@@ -18,6 +19,7 @@ from .forms import (
     ForgotPasswordForm,
     ResetPasswordForm,
 )
+from levels.models import Level
 
 OTP_EXPIRY = timedelta(minutes=1, seconds=30)
 
@@ -220,7 +222,9 @@ def reset_password_view(request):
     else:
         form = ResetPasswordForm()
 
-    return render(request, "accounts/reset_password.html", {"form": form, "email": email})
+    return render(
+        request, "accounts/reset_password.html", {"form": form, "email": email}
+    )
 
 
 @login_required
@@ -239,7 +243,9 @@ def profile_view(request):
                 username = profile_form.cleaned_data["username"]
                 if User.objects.filter(email=email).exclude(pk=user.pk).exists():
                     messages.error(request, "That email is already in use.")
-                elif User.objects.filter(username=username).exclude(pk=user.pk).exists():
+                elif (
+                    User.objects.filter(username=username).exclude(pk=user.pk).exists()
+                ):
                     messages.error(request, "That username is already taken.")
                 else:
                     profile_form.save()
@@ -251,7 +257,9 @@ def profile_view(request):
         elif action == "password":
             password_form = PasswordChangeForm(request.POST)
             if password_form.is_valid():
-                if not user.check_password(password_form.cleaned_data["current_password"]):
+                if not user.check_password(
+                    password_form.cleaned_data["current_password"]
+                ):
                     messages.error(request, "Current password is incorrect.")
                 else:
                     user.set_password(password_form.cleaned_data["new_password"])
@@ -280,7 +288,17 @@ def profile_view(request):
 
 
 def home_view(request):
-    return render(request, "home.html")
+    levels = Level.objects.select_related("subject").all()[:3]
+    top_user = User.objects.order_by("-score").first()
+
+    return render(
+        request,
+        "home.html",
+        {
+            "levels": levels,
+            "top_user": top_user,
+        },
+    )
 
 
 def about_view(request):
@@ -296,7 +314,10 @@ def contact_view(request):
                 "Your message has been sent successfully! We will get back to you shortly.",
             )
             return redirect("contact")
-        messages.error(request, "There was an error in your submission. Please check the fields below.")
+        messages.error(
+            request,
+            "There was an error in your submission. Please check the fields below.",
+        )
     else:
         form = ContactForm()
     return render(request, "contact.html", {"form": form})
