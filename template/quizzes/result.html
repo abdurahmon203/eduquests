@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Result - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title">Quiz Complete</h1>
+    <p class="page-subtitle">{{ level.title }} · {{ level.subject.name }}</p>
+  </div>
+</div>
+
+<section class="learn-section">
+  <div class="container result-wrapper">
+    <div class="result-card">
+      <p class="badge badge-indigo">Your Result</p>
+      <div class="result-score">{{ score }}<span>/100</span></div>
+
+      {% if score >= 50 %}
+      <p class="result-status pass">Passed — Great work!</p>
+      <p>You unlocked XP and made progress on this level.</p>
+      {% else %}
+      <p class="result-status fail">Not quite — try again</p>
+      <p>You need at least 50 points to pass. Review the material and retry.</p>
+      {% endif %}
+
+      {% if progress %}
+      <p class="mt-4" style="color: var(--color-slate-500); font-size: 14px;">
+        Attempts: {{ progress.attempts }}
+        {% if progress.is_completed %} · Level completed{% endif %}
+      </p>
+      {% endif %}
+
+      <div class="result-actions">
+        <a href="{% url 'quiz' level.id %}" class="btn btn-primary">Retry Quiz</a>
+        <a href="{% url 'level_list' level.subject.id %}" class="btn btn-secondary">Back to Levels</a>
+        <a href="{% url 'subject_list' %}" class="btn btn-secondary">All Subjects</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -36,7 +36,7 @@
             <a href="{{ subjects_url }}" class="{% if request.path == subjects_url %}active{% endif %}">Subjects</a>
           {% endif %}
           {% if request.user.is_authenticated %}
-            <a href="#" class="{% if request.path == '/profile/' %}active{% endif %}">Profile</a>
+            <a href="{% url 'profile' %}" class="{% if request.path == '/profile/' %}active{% endif %}">Profile</a>
           {% endif %}
         </nav>
 
@@ -130,7 +130,7 @@
             <h4>Account</h4>
             <ul>
               {% if request.user.is_authenticated %}
-                <li><a href="#">Profile</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="/logout/">Logout</a></li>
               {% else %}
                 <li><a href="/login/">Login</a></li>

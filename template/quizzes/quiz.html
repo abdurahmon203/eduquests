@@ -1,34 +1,61 @@
-{% extends 'base.html' %} {% block title %}Subjects - EduQuests{% endblock %}
-{%block main_content %}
-<h1>{{ level.title }}</h1>
+{% extends 'base.html' %}
 
-<form method="POST">
-  {% csrf_token %} 
-  {% for question in questions %}
-  <div>
-    <h3>{{ forloop.counter }}. {{ question.question }}</h3>
-    <label>
-      <input type="radio" name="question_{{ question.id }}" value="A" />
-      {{ question.option_a }}
-    </label>
-    <br />
-    <label>
-      <input type="radio" name="question_{{ question.id }}" value="B" />
-      {{ question.option_b }}
-    </label>
-    <br />
-    <label>
-      <input type="radio" name="question_{{ question.id }}" value="C" />
-      {{ question.option_c }}
-    </label>
-    <br />
-    <label>
-      <input type="radio" name="question_{{ question.id }}" value="D" />
-      {{ question.option_d }}
-    </label>
+{% block title %}{{ level.title }} - Quiz - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="{% url 'subject_list' %}">Subjects</a>
+      <span>/</span>
+      <a href="{% url 'level_list' level.subject.id %}">{{ level.subject.name }}</a>
+      <span>/</span>
+      <span>{{ level.title }}</span>
+    </nav>
+    <h1 class="page-title">{{ level.title }}</h1>
+    <p class="page-subtitle">Answer all questions to complete this level. You need 50% or higher to pass.</p>
   </div>
-  <hr />
-  {% endfor %}
-  <button type="submit">Submit Quiz</button>
-</form>
+</div>
+
+<section class="learn-section">
+  <div class="container quiz-wrapper">
+    <form method="POST">
+      {% csrf_token %}
+      {% for question in questions %}
+      <div class="quiz-question">
+        <h3>{{ forloop.counter }}. {{ question.question }}</h3>
+        <div class="quiz-options">
+          <label class="quiz-option">
+            <input type="radio" name="question_{{ question.id }}" value="A" required />
+            <span>{{ question.option_a }}</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="question_{{ question.id }}" value="B" />
+            <span>{{ question.option_b }}</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="question_{{ question.id }}" value="C" />
+            <span>{{ question.option_c }}</span>
+          </label>
+          <label class="quiz-option">
+            <input type="radio" name="question_{{ question.id }}" value="D" />
+            <span>{{ question.option_d }}</span>
+          </label>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-state">
+        <h3>No questions yet</h3>
+        <p>This quiz is not ready. Try another level.</p>
+      </div>
+      {% endfor %}
+
+      {% if questions %}
+      <div class="quiz-submit-bar">
+        <button type="submit" class="btn btn-primary">Submit Quiz</button>
+      </div>
+      {% endif %}
+    </form>
+  </div>
+</section>
 {% endblock %}

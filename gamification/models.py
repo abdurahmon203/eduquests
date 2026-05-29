@@ -14,7 +14,7 @@ class UserProgress(models.Model):
     completed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
         unique_together = ("user", "level")
 

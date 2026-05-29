@@ -1,29 +1,50 @@
-{% extends 'base.html' %} {% block title %}Subjects - EduQuests{% endblock %} 
-{%block main_content %}
-<h1>{{ subject.name }}</h1>
-<p>{{ subject.description }}</p>
-<hr>
-{% for level in levels %}
-<div>
-    <h2>
-        Level {{ level.level_number }}
-    </h2>
-    <h3>
-        {{ level.title }}
-    </h3>
-    <p>
-        {{ level.description }}
-    </p>
-    <p>
-        XP Reward: {{ level.xp_reward }}
-    </p>
-    <a href="{% url 'quiz' level.id %}">
-        Start Quiz
-    </a>
+{% extends 'base.html' %}
+
+{% block title %}{{ subject.name }} - Levels - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="{% url 'subject_list' %}">Subjects</a>
+      <span>/</span>
+      <span>{{ subject.name }}</span>
+    </nav>
+    <h1 class="page-title">{{ subject.name }}</h1>
+    <p class="page-subtitle">{{ subject.description }}</p>
+  </div>
 </div>
-<hr>
-{% empty %}
-<p>No levels found.</p>
-{% endfor %}
+
+<section class="learn-section">
+  <div class="container">
+    {% if levels %}
+    <div class="level-grid">
+      {% for level in levels %}
+      <article class="level-card{% if level.id in completed_level_ids %} completed{% endif %}">
+        <div class="level-meta">
+          <span class="badge badge-indigo">Level {{ level.level_number }}</span>
+          {% if level.id in completed_level_ids %}
+          <span class="badge badge-cyan">Completed</span>
+          {% endif %}
+        </div>
+        <h2>{{ level.title }}</h2>
+        <p>{{ level.description }}</p>
+        <p class="level-meta">
+          <span class="badge badge-indigo">{{ level.xp_reward }} XP</span>
+        </p>
+        <a href="{% url 'quiz' level.id %}" class="btn btn-primary">
+          {% if level.id in completed_level_ids %}Retry Quiz{% else %}Start Quiz{% endif %}
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h3>No levels available</h3>
+      <p>This subject does not have any levels yet.</p>
+      <a href="{% url 'subject_list' %}" class="btn btn-secondary mt-4">Back to Subjects</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}
-    

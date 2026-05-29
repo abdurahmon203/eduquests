@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title">Your Profile</h1>
+    <p class="page-subtitle">Manage your account details and security settings.</p>
+  </div>
+</div>
+
+<section class="profile-section">
+  <div class="container profile-grid">
+    <aside class="profile-sidebar">
+      <div class="profile-avatar">
+        {% if request.user.avatar %}
+        <img src="{{ request.user.avatar.url }}" alt="{{ request.user.username }}" />
+        {% else %}
+        {{ request.user.first_name|first|default:request.user.username|first|upper }}
+        {% endif %}
+      </div>
+      <h2>{{ request.user.get_full_name|default:request.user.username }}</h2>
+      <p class="profile-email">{{ request.user.email }}</p>
+      <div class="profile-xp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        {{ request.user.score }} XP
+      </div>
+    </aside>
+
+    <div class="profile-main">
+      <div class="profile-card">
+        <h3>Personal Information</h3>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="profile" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="id_first_name">First name</label>
+              {{ profile_form.first_name }}
+            </div>
+            <div class="form-group">
+              <label for="id_last_name">Last name</label>
+              {{ profile_form.last_name }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="id_username">Username</label>
+            {{ profile_form.username }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ profile_form.email }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_birth_date">Birth date</label>
+            {{ profile_form.birth_date }}
+          </div>
+
+          <div class="form-group">
+            <label for="id_avatar">Profile photo</label>
+            {{ profile_form.avatar }}
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+
+      <div class="profile-card">
+        <h3>Change Password</h3>
+        <form method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="password" />
+
+          <div class="form-group">
+            <label for="id_current_password">Current password</label>
+            {{ password_form.current_password }}
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pwd_new">New password</label>
+              {{ password_form.new_password }}
+            </div>
+            <div class="form-group">
+              <label for="pwd_confirm">Confirm new password</label>
+              {{ password_form.confirm_password }}
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

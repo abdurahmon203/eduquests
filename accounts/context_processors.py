@@ -8,8 +8,7 @@ def eduquests_context(request):
     has_subjects = False
     subjects_url = '#'
     
-    # Try common URL names for the subjects module
-    for url_name in ['subjects', 'subjects:index', 'subjects:list', 'subjects_list']:
+    for url_name in ['subject_list', 'subjects', 'subjects:index', 'subjects:list']:
         try:
             subjects_url = reverse(url_name)
             has_subjects = True

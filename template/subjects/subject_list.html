@@ -1,14 +1,36 @@
-{% extends 'base.html' %} {% block title %}Subjects - EduQuests{% endblock %} 
-{%block main_content %}
-<h1>Subjects</h1>
+{% extends 'base.html' %}
 
-{% for subject in subjects %}
-<div>
-  <h2>{{ subject.name }}</h2>
+{% block title %}Subjects - EduQuests{% endblock %}
 
-  <p>{{ subject.description }}</p>
-
-  <a href="{% url 'level_list' subject.id %}"> Open Subject </a>
+{% block main_content %}
+<div class="page-header">
+  <div class="container">
+  <h1 class="page-title">Choose Your Quest</h1>
+  <p class="page-subtitle">Pick a subject and start leveling up through interactive quizzes.</p>
+  </div>
 </div>
-{% endfor %} 
+
+<section class="learn-section">
+  <div class="container">
+    {% if subjects %}
+    <div class="subject-grid">
+      {% for subject in subjects %}
+      <article class="subject-card">
+        {% if subject.image %}
+        <img src="{{ subject.image.url }}" alt="{{ subject.name }}" class="subject-card-image" />
+        {% endif %}
+        <h2>{{ subject.name }}</h2>
+        <p>{{ subject.description }}</p>
+        <a href="{% url 'level_list' subject.id %}" class="btn btn-primary">Open Subject</a>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h3>No subjects yet</h3>
+      <p>Check back soon — new learning paths are on the way.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}
