@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path("subjects/", include("subjects.urls")),
     path("levels/", include("levels.urls")),
+    path("quiz/", include("quizzes.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
