@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Leaderboard - EduQuests{% endblock %}
+
+{% block main_content %}
+<section class="leaderboard-hero">
+  <div class="container leaderboard-hero-inner">
+    <div class="leaderboard-hero-badge">🏆 Global Rankings</div>
+    <h1 class="leaderboard-hero-title">Leaderboard</h1>
+    <p class="leaderboard-hero-subtitle">
+      Top learners ranked by XP earned across all completed quests.
+    </p>
+  </div>
+</section>
+
+<section class="leaderboard-section">
+  <div class="container">
+    {% if has_entries %}
+
+    {% if leaderboard|length >= 1 %}
+    <div class="leaderboard-podium">
+      {% for entry in leaderboard|slice:":3" %}
+      <div class="podium-card podium-rank-{{ entry.rank }}{% if entry.is_current_user %} podium-you{% endif %}">
+        <div class="podium-medal">
+          {% if entry.rank == 1 %}🥇{% elif entry.rank == 2 %}🥈{% else %}🥉{% endif %}
+        </div>
+        <div class="podium-rank-label">#{{ entry.rank }}</div>
+        <div class="podium-username">{{ entry.username }}</div>
+        {% if entry.is_current_user %}<span class="lb-you-badge">You</span>{% endif %}
+        <div class="podium-xp">{{ entry.total_xp }} XP</div>
+        <div class="podium-levels">{{ entry.completed_levels }} level{{ entry.completed_levels|pluralize }} completed</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="leaderboard-table-wrap">
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Player</th>
+            <th scope="col">Total XP</th>
+            <th scope="col">Levels</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in leaderboard %}
+          <tr class="leaderboard-row{% if entry.is_current_user %} leaderboard-row-you{% endif %}">
+            <td class="lb-rank">
+              {% if entry.rank == 1 %}
+              <span class="lb-medal" aria-label="1st place">🥇</span>
+              {% elif entry.rank == 2 %}
+              <span class="lb-medal" aria-label="2nd place">🥈</span>
+              {% elif entry.rank == 3 %}
+              <span class="lb-medal" aria-label="3rd place">🥉</span>
+              {% else %}
+              <span class="lb-rank-num">#{{ entry.rank }}</span>
+              {% endif %}
+            </td>
+            <td class="lb-user">
+              <span class="lb-avatar" aria-hidden="true">{{ entry.username|first|upper }}</span>
+              <img src="{{ entry.avatar.urls }}" alt="">
+              <span class="lb-username">
+                {{ entry.username }}
+                {% if entry.is_current_user %}
+                <span class="lb-you-badge">You</span>
+                {% endif %}
+              </span>
+            </td>
+            <td class="lb-xp">
+              <span class="lb-xp-value">{{ entry.total_xp }}</span>
+              <span class="lb-xp-label">XP</span>
+            </td>
+            <td class="lb-levels">{{ entry.completed_levels }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if show_current_user_footer %}
+    <div class="leaderboard-your-rank">
+      <h3>Your ranking</h3>
+      <div class="leaderboard-row leaderboard-row-you leaderboard-row-standalone">
+        <span class="lb-rank-num">#{{ current_user_entry.rank }}</span>
+        <span class="lb-user">
+          <span class="lb-avatar">{{ current_user_entry.username|first|upper }}</span>
+          <span class="lb-username">
+            {{ current_user_entry.username }}
+            <span class="lb-you-badge">You</span>
+          </span>
+        </span>
+        <span class="lb-xp">
+          <span class="lb-xp-value">{{ current_user_entry.total_xp }}</span>
+          <span class="lb-xp-label">XP</span>
+        </span>
+        <span class="lb-levels">{{ current_user_entry.completed_levels }}</span>
+      </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="leaderboard-empty">
+      <div class="leaderboard-empty-icon">📊</div>
+      <h2>No rankings yet</h2>
+      <p>Complete quizzes and earn XP to appear on the leaderboard.</p>
+      {% if has_subjects_url %}
+      <a href="{{ subjects_url }}" class="btn btn-primary">Start Learning</a>
+      {% else %}
+      <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

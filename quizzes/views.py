@@ -29,6 +29,7 @@ def quiz_view(request, level_id):
         )
         was_completed = progress.is_completed
         progress.score = score
+        progress.xp_earned = max(progress.xp_earned, xp)
         progress.attempts += 1
         progress.is_completed = is_completed
         if is_completed and not progress.completed_at:

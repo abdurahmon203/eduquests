@@ -9,6 +9,10 @@ class UserProgress(models.Model):
     )
     level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name="progress")
     score = models.PositiveIntegerField(default=0)
+    xp_earned = models.PositiveIntegerField(
+        default=0,
+        help_text="Total XP earned for this level (best attempt).",
+    )
     attempts = models.PositiveIntegerField(default=0)
     is_completed = models.BooleanField(default=False)
     completed_at = models.DateTimeField(blank=True, null=True)
