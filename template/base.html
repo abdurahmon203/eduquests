@@ -4,30 +4,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}EduQuests - Gamified Learning{% endblock %}</title>
-    
-    <!-- Link to Custom Stylesheet -->
+    <title>{% block title %}EduQuests - Gamified Learning{% endblock %}</title>    
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     
     {% block extra_head %}{% endblock %}
   </head>
 
   <body>
-    <!-- Header/Navigation -->
     <header>
       <div class="navbar-container">
         <a href="/" class="logo-link">
           Edu<span class="logo-accent">Quests</span>
         </a>
 
-        <!-- Mobile Nav Hamburger Button -->
         <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
-        <!-- Navigation Links -->
         <nav id="nav-menu">
           <a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a>
           <a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
@@ -41,7 +36,6 @@
           {% endif %}
         </nav>
 
-        <!-- Auth Actions / User Panel -->
         <div class="nav-right" id="nav-right">
           <div class="auth-buttons">
             {% if request.user.is_authenticated %}
@@ -61,7 +55,6 @@
       </div>
     </header>
 
-    <!-- Message Alerts Toast System -->
     {% if messages %}
       <div class="messages-container" id="messages-container">
         {% for message in messages %}
@@ -93,7 +86,6 @@
         {% endfor %}
       </div>
       <script>
-        // Auto-fade notifications
         setTimeout(() => {
           const container = document.getElementById('messages-container');
           if (container) {
@@ -106,12 +98,10 @@
       </script>
     {% endif %}
 
-    <!-- Main Content Block -->
     <main>
       {% block main_content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
     <footer>
       <div class="container">
         <div class="footer-grid">
@@ -160,7 +150,6 @@
       </div>
     </footer>
 
-    <!-- Mobile Nav JavaScript Menu Toggle -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const toggleBtn = document.getElementById('nav-toggle');
@@ -173,7 +162,6 @@
           });
         }
         
-        // Close menu if clicking outside
         document.addEventListener('click', (e) => {
           if (header.classList.contains('mobile-menu-open') && !header.contains(e.target)) {
             header.classList.remove('mobile-menu-open');
