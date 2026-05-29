@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Subjects - EduQuests{% endblock %}
+
+{% block main_content %}
+<h1>Subjects</h1>
+
+{% for subject in subjects %}
+<div>
+    <h2>{{ subject.name }}</h2>
+
+    <p>{{ subject.description }}</p>
+
+    <a href="#">
+        Open
+    </a>
+</div>
+{% endfor %}
+{% endblock %}
