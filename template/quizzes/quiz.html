@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block title %}Subjects - EduQuests{% endblock %}
+{%block main_content %}
+<h1>{{ level.title }}</h1>
+
+<form method="POST">
+  {% csrf_token %} 
+  {% for question in questions %}
+  <div>
+    <h3>{{ forloop.counter }}. {{ question.question }}</h3>
+    <label>
+      <input type="radio" name="question_{{ question.id }}" value="A" />
+      {{ question.option_a }}
+    </label>
+    <br />
+    <label>
+      <input type="radio" name="question_{{ question.id }}" value="B" />
+      {{ question.option_b }}
+    </label>
+    <br />
+    <label>
+      <input type="radio" name="question_{{ question.id }}" value="C" />
+      {{ question.option_c }}
+    </label>
+    <br />
+    <label>
+      <input type="radio" name="question_{{ question.id }}" value="D" />
+      {{ question.option_d }}
+    </label>
+  </div>
+  <hr />
+  {% endfor %}
+  <button type="submit">Submit Quiz</button>
+</form>
+{% endblock %}
