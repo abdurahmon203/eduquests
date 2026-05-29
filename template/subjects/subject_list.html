@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block title %}Subjects - EduQuests{% endblock %} {%
-block main_content %}
+{% extends 'base.html' %} {% block title %}Subjects - EduQuests{% endblock %} 
+{%block main_content %}
 <h1>Subjects</h1>
 
 {% for subject in subjects %}
@@ -10,4 +10,5 @@ block main_content %}
 
   <a href="{% url 'level_list' subject.id %}"> Open Subject </a>
 </div>
-{% endfor %} {% endblock %}
+{% endfor %} 
+{% endblock %}
