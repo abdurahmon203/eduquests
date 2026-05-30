@@ -1,0 +1,30 @@
+<div class="social-hub-stats">
+  <div class="social-stat-card social-stat-friends">
+    <span class="social-stat-icon">👥</span>
+    <div>
+      <span class="social-stat-value">{{ hub_stats.friends_count }}</span>
+      <span class="social-stat-label">Total Friends</span>
+    </div>
+  </div>
+  <div class="social-stat-card social-stat-requests">
+    <span class="social-stat-icon">📨</span>
+    <div>
+      <span class="social-stat-value">{{ hub_stats.pending_requests }}</span>
+      <span class="social-stat-label">Pending Requests</span>
+    </div>
+  </div>
+  <div class="social-stat-card social-stat-rank">
+    <span class="social-stat-icon">🏆</span>
+    <div>
+      <span class="social-stat-value">#{{ hub_stats.friend_rank }}</span>
+      <span class="social-stat-label">Friend Rank</span>
+    </div>
+  </div>
+  <div class="social-stat-card social-stat-activity">
+    <span class="social-stat-icon">🔥</span>
+    <div>
+      <span class="social-stat-value">{{ hub_stats.friend_activity }}</span>
+      <span class="social-stat-label">Friend Activity</span>
+    </div>
+  </div>
+</div>

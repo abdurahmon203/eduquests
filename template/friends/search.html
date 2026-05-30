@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Friends - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header friends-page-header search-page-header">
+  <div class="container">
+    <h1 class="page-title">🔍 Search Friends</h1>
+    <p class="page-subtitle">Discover learners and grow your squad.</p>
+  </div>
+</div>
+
+<section class="friends-section search-premium-section">
+  <div class="container">
+    {% include "friends/_social_hub.html" %}
+
+    <div class="search-premium-bar-wrap">
+      {% csrf_token %}
+      <form method="GET" action="{% url 'friends_search' %}" class="search-premium-form" id="friends-search-form">
+        <span class="search-premium-icon">🔍</span>
+        {{ form.q }}
+      </form>
+    </div>
+
+    <div id="friends-search-results" class="friends-search-results-premium">
+      {% include "friends/_search_results.html" %}
+    </div>
+
+    <div id="friends-search-hint" class="friends-search-hint{% if query %} hidden{% endif %}">
+      <p>Type a username to search — results update live.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<script src="{% static 'js/friends.js' %}"></script>
+{% endblock %}

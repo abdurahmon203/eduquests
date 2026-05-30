@@ -1,0 +1,15 @@
+{% if relationship == "friends" %}
+<span class="friend-status-pill friends">Already Friends</span>
+{% elif relationship == "pending_outgoing" %}
+<span class="friend-status-pill pending">Request Sent</span>
+{% elif relationship == "pending_incoming" %}
+<form method="POST" action="{% url 'accept_friend' incoming_request_id %}" class="ajax-friend-form" data-user-id="{{ user.pk }}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary btn-sm">Accept Request</button>
+</form>
+{% else %}
+<form method="POST" action="{% url 'add_friend' user.pk %}" class="ajax-friend-form" data-user-id="{{ user.pk }}">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary btn-sm">Add Friend</button>
+</form>
+{% endif %}

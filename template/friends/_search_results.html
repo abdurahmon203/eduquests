@@ -1,0 +1,25 @@
+{% for item in results %}
+<div class="friend-glass-card" data-user-id="{{ item.user.pk }}">
+  <div class="friend-glass-glow"></div>
+  <div class="friend-avatar friend-avatar-lg">
+    {% include "friends/_avatar.html" with user=item.user %}
+  </div>
+  <div class="friend-glass-info">
+    <h3>@{{ item.user.username }}</h3>
+    <div class="friend-glass-stats">
+      <span>🎯 Level {{ item.level }}</span>
+      <span class="xp-glow-text">⚡ {{ item.total_xp }} XP</span>
+      <span>🔥 {{ item.streak }} day streak</span>
+    </div>
+  </div>
+  <div class="friend-glass-action" data-action-container>
+    {% include "friends/_friend_action.html" with user=item.user relationship=item.relationship incoming_request_id=item.incoming_request_id %}
+  </div>
+</div>
+{% empty %}
+{% if query %}
+<div class="friends-empty-inline glass-empty">
+  <p>No users found for "{{ query }}"</p>
+</div>
+{% endif %}
+{% endfor %}

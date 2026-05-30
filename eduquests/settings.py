@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "accounts",
     "gamification",
+    "friends",
     "levels",
     "subjects",
     "quizzes",
@@ -67,6 +68,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "accounts.context_processors.eduquests_context",
+                "friends.context_processors.friends_context",
             ],
         },
     },

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Friends Leaderboard - EduQuests{% endblock %}
+
+{% block main_content %}
+<section class="friends-lb-hero-premium">
+  <div class="container friends-lb-hero-inner">
+    <div class="friends-lb-hero-badge">🏆 Squad Rankings</div>
+    <h1>Friends Leaderboard</h1>
+    <p>Compete with your friends — climb the podium together.</p>
+    <div class="friends-lb-hero-meta">
+      <span>👥 {{ friends_count }} friend{{ friends_count|pluralize }}</span>
+      <span>🎯 Your rank: #{{ hub_stats.friend_rank }} of {{ hub_stats.squad_size }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="friends-section friends-lb-section">
+  <div class="container">
+    {% include "friends/_social_hub.html" %}
+
+    {% if has_entries %}
+
+    {% if podium %}
+    <div class="friends-podium-premium">
+      {% for entry in podium %}
+      <div class="friends-podium-slot friends-podium-rank-{{ entry.rank }}{% if entry.is_current_user %} is-you{% endif %}">
+        <div class="friends-podium-glow"></div>
+        <div class="friends-podium-medal">
+          {% if entry.rank == 1 %}🥇{% elif entry.rank == 2 %}🥈{% else %}🥉{% endif %}
+        </div>
+        <div class="friend-avatar friend-avatar-podium">
+          {% include "friends/_avatar.html" with user=entry.user %}
+        </div>
+        <span class="friends-podium-rank-badge">#{{ entry.rank }}</span>
+        <h3>{% if entry.is_current_user %}You{% else %}{{ entry.user.username }}{% endif %}</h3>
+        {% if entry.is_current_user %}<span class="lb-you-badge">You</span>{% endif %}
+        <p class="friends-podium-xp xp-glow">{{ entry.total_xp }} XP</p>
+        <div class="friends-podium-stats">
+          <span>🎯 Lv.{{ entry.level }}</span>
+          <span>🔥 {{ entry.streak }}d</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="friends-lb-table-wrap">
+      <table class="friends-lb-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>XP</th>
+            <th>Level</th>
+            <th>Streak</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in leaderboard %}
+          <tr class="{% if entry.is_current_user %}friends-lb-row-you{% endif %}">
+            <td>
+              {% if entry.rank == 1 %}<span class="rank-badge gold">🥇</span>
+              {% elif entry.rank == 2 %}<span class="rank-badge silver">🥈</span>
+              {% elif entry.rank == 3 %}<span class="rank-badge bronze">🥉</span>
+              {% else %}<span class="rank-badge">#{{ entry.rank }}</span>{% endif %}
+            </td>
+            <td>
+              <div class="friends-lb-player">
+                <span class="friend-avatar friend-avatar-sm">{% include "friends/_avatar.html" with user=entry.user %}</span>
+                <span>{% if entry.is_current_user %}You{% else %}{{ entry.user.username }}{% endif %}</span>
+                {% if entry.is_current_user %}<span class="lb-you-badge">You</span>{% endif %}
+              </div>
+            </td>
+            <td><span class="xp-glow-text">{{ entry.total_xp }}</span> XP</td>
+            <td>{{ entry.level }}</td>
+            <td>🔥 {{ entry.streak }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+    <div class="friends-empty">
+      <div class="friends-empty-icon">👥</div>
+      <h2>No squad rankings yet</h2>
+      <p>Add friends to unlock your private leaderboard.</p>
+      <a href="{% url 'friends_search' %}" class="btn btn-primary">Search Friends</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

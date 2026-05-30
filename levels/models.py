@@ -29,13 +29,18 @@ class Level(models.Model):
     @property
     def youtube_video_id(self):
         url = (self.video_url or "").strip()
-
-        if "youtu.be" in url:
+    
+        if "youtu.be/" in url:
             return url.split("/")[-1].split("?")[0]
-
+    
+        if "/embed/" in url:
+            return url.split("/embed/")[1].split("?")[0]
+    
         if "youtube.com" in url:
             parsed = urlparse(url)
-            return parse_qs(parsed.query).get("v", [""])[0]
-
+            video_id = parse_qs(parsed.query).get("v", [""])[0]
+            if video_id:
+                return video_id
+    
         match = re.search(r"([a-zA-Z0-9_-]{11})", url)
         return match.group(1) if match else ""

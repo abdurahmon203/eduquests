@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}My Friends - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header friends-page-header">
+  <div class="container">
+    <h1 class="page-title">👥 My Friends</h1>
+    <p class="page-subtitle">Your learning squad — connected and competing.</p>
+  </div>
+</div>
+
+<section class="friends-section">
+  <div class="container">
+    {% include "friends/_social_hub.html" %}
+
+    <div class="friends-quick-links">
+      <a href="{% url 'friends_search' %}" class="btn btn-primary">Search Friends</a>
+      <a href="{% url 'friend_requests' %}" class="btn btn-secondary">
+        Requests
+        {% if pending_friend_requests_count %}<span class="nav-badge">{{ pending_friend_requests_count }}</span>{% endif %}
+      </a>
+      <a href="{% url 'friends_leaderboard' %}" class="btn btn-secondary">Squad Leaderboard</a>
+    </div>
+
+    {% if friends %}
+    <div class="friends-grid">
+      {% for item in friends %}
+      <article class="friend-card friend-card-premium">
+        <div class="friend-avatar friend-avatar-lg">
+          {% include "friends/_avatar.html" with user=item.user %}
+        </div>
+        <h3>{{ item.user.username }}</h3>
+        <div class="friend-stats">
+          <span class="xp-glow-text">⚡ {{ item.total_xp }} XP</span>
+          <span>🎯 Level {{ item.level }}</span>
+          <span>🔥 {{ item.streak }} day streak</span>
+        </div>
+        <form method="POST" action="{% url 'remove_friend' item.user.pk %}" class="friend-card-action">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{% url 'friends_list' %}" />
+          <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('Remove {{ item.user.username }} from friends?')">Remove Friend</button>
+        </form>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="friends-empty">
+      <div class="friends-empty-icon">👥</div>
+      <h2>No friends yet</h2>
+      <p>Search for users and send friend requests to build your squad.</p>
+      <a href="{% url 'friends_search' %}" class="btn btn-primary">Search Friends</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

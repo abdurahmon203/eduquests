@@ -1,0 +1,5 @@
+{% if user.avatar %}
+<img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="friend-avatar-img" />
+{% else %}
+<span class="friend-avatar-fallback">{{ user.username|first|upper }}</span>
+{% endif %}

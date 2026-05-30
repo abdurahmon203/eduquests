@@ -33,6 +33,27 @@
           <a href="/levels/learn/" class="{% if request.path == '/levels/learn/' %}active{% endif %}">Learn</a>
           <a href="{% url 'leaderboard' %}" class="{% if request.path == '/leaderboard/' %}active{% endif %}">Leaderboard</a>
           {% if request.user.is_authenticated %}
+          <div class="nav-dropdown" id="friends-dropdown">
+            <button type="button" class="nav-dropdown-toggle {% if '/friends/' in request.path and '/friends/leaderboard/' not in request.path %}active{% endif %}" id="friends-dropdown-btn" aria-expanded="false">
+              👥 Friends
+              {% if pending_friend_requests_count %}
+              <span class="nav-badge">{{ pending_friend_requests_count }}</span>
+              {% endif %}
+            </button>
+            <div class="nav-dropdown-menu" id="friends-dropdown-menu">
+              <a href="{% url 'friends_list' %}">Friends List</a>
+              <a href="{% url 'friends_search' %}">Search Friends</a>
+              <a href="{% url 'friend_requests' %}">
+                Friend Requests
+                {% if pending_friend_requests_count %}<span class="nav-badge nav-badge-sm">{{ pending_friend_requests_count }}</span>{% endif %}
+              </a>
+              <a href="{% url 'friends_leaderboard' %}" class="{% if request.path == '/friends/leaderboard/' %}active{% endif %} ehson">Squad Rank</a>
+              <a href="{% url 'notifications_list' %}" class="nav-notifications-link {% if request.path == '/notifications/' %}active{% endif %} ehson">
+                🔔 Notifications
+                {% if unread_notifications_count %}<span class="nav-badge nav-badge-inline">{{ unread_notifications_count }}</span>{% endif %}
+              </a>
+            </div>
+          </div>
             <a href="{% url 'profile' %}" class="{% if request.path == '/profile/' %}active{% endif %}">Profile</a>
           {% endif %}
         </nav>
@@ -167,6 +188,35 @@
           if (header.classList.contains('mobile-menu-open') && !header.contains(e.target)) {
             header.classList.remove('mobile-menu-open');
           }
+        });
+
+        const setupDropdown = (btnId, menuId) => {
+          const btn = document.getElementById(btnId);
+          const menu = document.getElementById(menuId);
+          if (!btn || !menu) return;
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const open = menu.classList.contains('open');
+            document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+            document.querySelectorAll('.nav-dropdown-toggle.open').forEach(b => b.classList.remove('open'));
+            if (!open) {
+              menu.classList.add('open');
+              btn.classList.add('open');
+              btn.setAttribute('aria-expanded', 'true');
+            } else {
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        };
+
+        setupDropdown('friends-dropdown-btn', 'friends-dropdown-menu');
+
+        document.addEventListener('click', () => {
+          document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+          document.querySelectorAll('.nav-dropdown-toggle.open').forEach(b => {
+            b.classList.remove('open');
+            b.setAttribute('aria-expanded', 'false');
+          });
         });
       });
     </script>

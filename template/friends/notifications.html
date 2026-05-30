@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header friends-page-header notifications-page-header">
+  <div class="container">
+    <h1 class="page-title">🔔 Notifications</h1>
+    <p class="page-subtitle">Stay updated on friend requests and squad activity.</p>
+  </div>
+</div>
+
+<section class="friends-section notifications-section">
+  <div class="container notifications-container">
+    {% if unread_notifications_count %}
+    <form method="POST" action="{% url 'mark_notifications_read' %}" class="notifications-toolbar">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'notifications_list' %}" />
+      <button type="submit" class="btn btn-secondary btn-sm">Mark all as read</button>
+    </form>
+    {% endif %}
+
+    {% if notifications %}
+    <div class="notifications-feed">
+      {% for note in notifications %}
+      <article class="notification-card{% if not note.is_read %} unread{% endif %}">
+        <div class="notification-icon">
+          {% if note.notification_type == 'friend_request' %}👋{% else %}🎉{% endif %}
+        </div>
+        <div class="notification-body">
+          <h3>
+            {% if note.notification_type == 'friend_request' %}
+            New Friend Request
+            {% elif note.notification_type == 'friend_accepted' %}
+            Friend Request Accepted
+            {% else %}
+            Notification
+            {% endif %}
+          </h3>
+          <p class="notification-message">{{ note.message }}</p>
+          <time class="notification-time">{{ note.created_at|timesince }} ago</time>
+          <div class="notification-actions">
+            {% if note.notification_type == 'friend_request' %}
+            <a href="{% url 'friend_requests' %}" class="btn btn-primary btn-sm">View Request</a>
+            {% elif note.notification_type == 'friend_accepted' %}
+            <a href="{% url 'friends_list' %}" class="btn btn-primary btn-sm">View Friend</a>
+            {% endif %}
+            {% if not note.is_read %}
+            <form method="POST" action="{% url 'mark_notification_read' note.id %}" class="inline-form">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'notifications_list' %}" />
+              <button type="submit" class="btn btn-secondary btn-sm">Mark read</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="friends-empty">
+      <div class="friends-empty-icon">🔔</div>
+      <h2>No notifications yet</h2>
+      <p>Friend requests and acceptances will show up here.</p>
+      <a href="{% url 'friends_search' %}" class="btn btn-primary">Find Friends</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

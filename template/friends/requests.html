@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Friend Requests - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header friends-page-header">
+  <div class="container">
+    <h1 class="page-title">📨 Friend Requests</h1>
+    <p class="page-subtitle">Accept or decline incoming requests.</p>
+  </div>
+</div>
+
+<section class="friends-section">
+  <div class="container">
+    {% include "friends/_social_hub.html" %}
+
+    <div class="friends-requests-grid">
+      <div class="friends-panel">
+        <h2>Incoming Requests</h2>
+        {% if incoming %}
+        <div class="friends-request-list">
+          {% for item in incoming %}
+          <div class="friends-request-card">
+            <div class="friend-avatar">{% include "friends/_avatar.html" with user=item.user %}</div>
+            <div class="friends-request-info">
+              <h3>@{{ item.user.username }}</h3>
+              <p>wants to be your friend</p>
+              <span class="friend-meta-item">⚡ {{ item.total_xp }} XP · Lv.{{ item.level }}</span>
+            </div>
+            <div class="friends-request-actions">
+              <form method="POST" action="{% url 'accept_friend' item.request.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Accept</button>
+              </form>
+              <form method="POST" action="{% url 'reject_friend' item.request.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary btn-sm">Reject</button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="friends-empty-inline"><p>No incoming requests.</p></div>
+        {% endif %}
+      </div>
+
+      <div class="friends-panel">
+        <h2>Outgoing Requests</h2>
+        {% if outgoing %}
+        <div class="friends-request-list">
+          {% for item in outgoing %}
+          <div class="friends-request-card outgoing">
+            <div class="friend-avatar">{% include "friends/_avatar.html" with user=item.user %}</div>
+            <div class="friends-request-info">
+              <h3>@{{ item.user.username }}</h3>
+              <p>Waiting for response...</p>
+              <span class="friend-meta-item">{{ item.request.created_at|timesince }} ago</span>
+            </div>
+            <span class="friend-status-pill pending">Pending</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="friends-empty-inline"><p>No outgoing requests.</p></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
