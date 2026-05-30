@@ -31,6 +31,7 @@
           <a href="{{ subjects_url }}" class="{% if request.path == subjects_url %}active{% endif %}">Subjects</a>
           {% endif %}
           <a href="/levels/learn/" class="{% if request.path == '/levels/learn/' %}active{% endif %}">Learn</a>
+          <a href="{% url 'ai_tutor_chat' %}" class="{% if request.path == '/ai-tutor/' %}active{% endif %}">AI Tutor</a>
           <a href="{% url 'leaderboard' %}" class="{% if request.path == '/leaderboard/' %}active{% endif %}">Leaderboard</a>
           {% if request.user.is_authenticated %}
           <div class="nav-dropdown" id="friends-dropdown">

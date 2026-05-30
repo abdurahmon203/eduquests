@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Tutor - EduQuests{% endblock %}
+
+{% block main_content %}
+<section class="ai-tutor-hero">
+  <div class="container ai-tutor-hero-inner">
+    <div class="ai-tutor-badge">✨ Personal Tutor</div>
+    <h1>AI Tutor</h1>
+    <p>Ask anything — I'll explain, give examples, and help you learn (not cheat).</p>
+  </div>
+</section>
+
+<section class="ai-tutor-section">
+  <div class="container ai-tutor-layout">
+    <aside class="ai-tutor-sidebar">
+      <h3>Learning mode</h3>
+      <p>Your tutor explains concepts, shares examples, and asks you follow-up questions.</p>
+      <ul class="ai-tutor-tips">
+        <li>✅ "What is photosynthesis?"</li>
+        <li>✅ "Help me understand fractions"</li>
+        <li>❌ "Give me the exam answer"</li>
+      </ul>
+      <div class="ai-tutor-meta-fields">
+        <label for="ai-subject">Subject (optional)</label>
+        <input type="text" id="ai-subject" class="form-input" placeholder="e.g. Biology" />
+        <label for="ai-level">Level (optional)</label>
+        <input type="text" id="ai-level" class="form-input" placeholder="e.g. Level 3" />
+      </div>
+    </aside>
+
+    <div class="ai-tutor-chat-wrap">
+      <div id="ai-chat-messages" class="ai-chat-messages">
+        <div class="ai-msg ai-msg-assistant">
+          <div class="ai-msg-avatar">🎓</div>
+          <div class="ai-msg-bubble">
+            <p>Hi! I'm your EduQuests tutor. Ask me anything you're learning — I'll explain it simply, give an example, and quiz you gently.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="ai-typing" class="ai-typing hidden" aria-live="polite">
+        <div class="ai-msg-avatar">🎓</div>
+        <div class="ai-typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <form id="ai-chat-form" class="ai-chat-form">
+        {% csrf_token %}
+        <textarea
+          id="ai-question-input"
+          class="ai-chat-input"
+          rows="2"
+          placeholder="Ask your tutor..."
+          required
+        ></textarea>
+        <button type="submit" class="btn btn-primary ai-chat-send" id="ai-send-btn">Send</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{{ chat_messages|json_script:"chat-history-data" }}
+{% endblock %}
+
+{% block extra_head %}
+<script src="{% static 'js/ai_tutor.js' %}"></script>
+{% endblock %}
