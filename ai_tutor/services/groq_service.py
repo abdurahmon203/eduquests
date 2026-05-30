@@ -22,7 +22,6 @@ CHEATING_PATTERNS = [
 ]
 
 SYSTEM_PROMPT = """You are EduQuests AI Tutor — a warm, patient personal teacher inside a gamified learning platform.
-
 RULES (never break these):
 1. Teach concepts; do NOT give direct answers to quiz, test, exam, or homework questions.
 2. If the student asks for a direct/correct answer to pass a test, refuse politely and offer to teach the concept instead.
