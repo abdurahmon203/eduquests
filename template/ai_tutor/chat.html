@@ -1,62 +1,63 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static tr_tags %}
 
-{% block title %}AI Tutor - EduQuests{% endblock %}
+{% block title %}{% tr "ai.title" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<section class="ai-tutor-hero">
-  <div class="container ai-tutor-hero-inner">
-    <div class="ai-tutor-badge">✨ Personal Tutor</div>
-    <h1>AI Tutor</h1>
-    <p>Ask anything — I'll explain, give examples, and help you learn (not cheat).</p>
+<section class="ai-tutor-hero page-enter">
+  <div class="container ai-tutor-hero-inner reveal">
+    <div class="ai-tutor-badge">✨ {% tr "ai.badge" %}</div>
+    <h1>{% tr "ai.title" %}</h1>
+    <p>{% tr "ai.subtitle" %}</p>
   </div>
 </section>
 
 <section class="ai-tutor-section">
   <div class="container ai-tutor-layout">
-    <aside class="ai-tutor-sidebar">
-      <h3>Learning mode</h3>
-      <p>Your tutor explains concepts, shares examples, and asks you follow-up questions.</p>
+    <aside class="ai-tutor-sidebar reveal hover-lift">
+      <h3>{% tr "ai.learning_mode" %}</h3>
+      <p>{% tr "ai.subtitle" %}</p>
       <ul class="ai-tutor-tips">
-        <li>✅ "What is photosynthesis?"</li>
-        <li>✅ "Help me understand fractions"</li>
-        <li>❌ "Give me the exam answer"</li>
+        <li>✅ "{% tr "ai.tip_ok1" %}"</li>
+        <li>✅ "{% tr "ai.tip_ok2" %}"</li>
+        <li>❌ "{% tr "ai.tip_bad" %}"</li>
       </ul>
       <div class="ai-tutor-meta-fields">
-        <label for="ai-subject">Subject (optional)</label>
-        <input type="text" id="ai-subject" class="form-input" placeholder="e.g. Biology" />
-        <label for="ai-level">Level (optional)</label>
-        <input type="text" id="ai-level" class="form-input" placeholder="e.g. Level 3" />
+        <label for="ai-subject">{% tr "nav.subjects" %} ({% tr "common.optional" %})</label>
+        <input type="text" id="ai-subject" class="form-input" />
+        <label for="ai-level">{% tr "common.level" %} ({% tr "common.optional" %})</label>
+        <input type="text" id="ai-level" class="form-input" />
+      </div>
+      <div class="ai-tutor-settings" id="ai-settings-panel">
+        <h3>Gemini API</h3>
+        <div id="ai-status-banner" class="ai-status-banner {% if ai_configured %}ai-status-ok{% else %}ai-status-warn{% endif %}">
+          {% if ai_has_session_key %}✓ Browser{% elif ai_configured %}✓ .env{% else %}—{% endif %}
+        </div>
+        <label for="ai-api-key">API key</label>
+        <input type="password" id="ai-api-key" class="form-input" autocomplete="off" />
+        <div class="ai-settings-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="ai-save-key-btn">{% tr "common.save" %}</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="ai-clear-key-btn">{% tr "common.cancel" %}</button>
+        </div>
+        <p id="ai-settings-message" class="ai-settings-message" hidden></p>
       </div>
     </aside>
 
-    <div class="ai-tutor-chat-wrap">
+    <div class="ai-tutor-chat-wrap reveal-scale hover-lift">
       <div id="ai-chat-messages" class="ai-chat-messages">
         <div class="ai-msg ai-msg-assistant">
           <div class="ai-msg-avatar">🎓</div>
-          <div class="ai-msg-bubble">
-            <p>Hi! I'm your EduQuests tutor. Ask me anything you're learning — I'll explain it simply, give an example, and quiz you gently.</p>
-          </div>
+          <div class="ai-msg-bubble"><p>{% tr "ai.subtitle" %}</p></div>
         </div>
       </div>
-
       <div id="ai-typing" class="ai-typing hidden" aria-live="polite">
         <div class="ai-msg-avatar">🎓</div>
-        <div class="ai-typing-dots">
-          <span></span><span></span><span></span>
-        </div>
+        <div class="ai-typing-dots"><span></span><span></span><span></span></div>
       </div>
-
       <form id="ai-chat-form" class="ai-chat-form">
         {% csrf_token %}
-        <textarea
-          id="ai-question-input"
-          class="ai-chat-input"
-          rows="2"
-          placeholder="Ask your tutor..."
-          required
-        ></textarea>
-        <button type="submit" class="btn btn-primary ai-chat-send" id="ai-send-btn">Send</button>
+        <textarea id="ai-question-input" class="ai-chat-input" rows="2" placeholder="{% tr 'ai.placeholder' %}" required></textarea>
+        <button type="submit" class="btn btn-primary ai-chat-send" id="ai-send-btn">{% tr "common.send" %}</button>
       </form>
     </div>
   </div>

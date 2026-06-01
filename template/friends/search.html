@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static tr_tags %}
 
-{% block title %}Search Friends - EduQuests{% endblock %}
+{% block title %}{% tr "friends.search_title" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<div class="page-header friends-page-header search-page-header">
+<div class="page-header friends-page-header search-page-header page-enter">
   <div class="container">
-    <h1 class="page-title">🔍 Search Friends</h1>
-    <p class="page-subtitle">Discover learners and grow your squad.</p>
+    <h1 class="page-title">🔍 {% tr "friends.search_title" %}</h1>
+    <p class="page-subtitle">{% tr "friends.search_sub" %}</p>
   </div>
 </div>
 

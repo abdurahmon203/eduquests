@@ -1,46 +1,38 @@
-{% extends 'base.html' %} {% block title %}EduQuests - Learn Smarter, Not
-Harder{% endblock %} {% block main_content %}
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-content">
+{% extends 'base.html' %}
+{% load tr_tags %}
+
+{% block title %}{% tr "home.title" %} - EduQuests{% endblock %}
+
+{% block main_content %}
+<section class="hero bg-orbs">
+  <div class="container hero-grid page-enter">
+    <div class="hero-content reveal">
       <span class="hero-tag">
-        <span class="badge badge-indigo">New</span> Gamified Learning Platform
+        <span class="badge badge-indigo">{% tr "common.new" %}</span> {% tr "home.tag" %}
       </span>
       <h1 class="hero-title">
-        Learn <span class="gradient-text">Smarter</span>,<br />Not Harder
+        {% tr "home.hero_title_1" %} <span class="gradient-text">{% tr "home.hero_title_2" %}</span>,<br />{% tr "home.hero_title_3" %}
       </h1>
-      <p class="hero-subtitle">
-        EduQuest helps you reach your goals with powerful courses. Study,
-        compete with peers, and level up your skills in a gamified landscape.
-      </p>
+      <p class="hero-subtitle">{% tr "home.subtitle" %}</p>
       <div class="hero-actions">
         {% if request.user.is_authenticated %}
-        <a href="{{ subjects_url }}" class="btn btn-primary">Get Started</a>
-        <a href="{{ subjects_url }}" class="btn btn-outline">Start Now</a>
+        <a href="{{ subjects_url }}" class="btn btn-primary">{% tr "home.get_started" %}</a>
+        <a href="{{ subjects_url }}" class="btn btn-outline">{% tr "home.start_now" %}</a>
         {% else %}
-        <a href="/register/" class="btn btn-primary">Get Started</a>
-        <a href="/register/" class="btn btn-outline">Start Now</a>
+        <a href="/register/" class="btn btn-primary">{% tr "home.get_started" %}</a>
+        <a href="/register/" class="btn btn-outline">{% tr "home.start_now" %}</a>
         {% endif %}
       </div>
     </div>
-
-    <div class="hero-visual">
-      <div class="canvas-mockup">
+    <div class="hero-visual reveal-scale">
+      <div class="canvas-mockup hover-lift">
         <div class="mockup-header">
-          <div class="mockup-dots">
-            <span class="mockup-dot"></span>
-            <span class="mockup-dot"></span>
-            <span class="mockup-dot"></span>
-          </div>
+          <div class="mockup-dots"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span></div>
           <div class="mockup-search"></div>
         </div>
         <div class="mockup-quest-card">
-          <div class="mockup-quest-title">
-            <span>🎮</span> Current Quest: {{ levels.0.subject.name }}
-          </div>
-          <div class="mockup-progress-bar">
-            <div class="mockup-progress-fill"></div>
-          </div>
+          <div class="mockup-quest-title"><span>🎮</span> {% tr "home.current_quest" %}: {{ levels.0.subject.name }}</div>
+          <div class="mockup-progress-bar"><div class="mockup-progress-fill"></div></div>
         </div>
         <div class="mockup-list">
           {% for level in levels %}
@@ -49,28 +41,18 @@ Harder{% endblock %} {% block main_content %}
               <span>{{ level.level_number|stringformat:"02d" }}</span>
               {{ level.description|truncatechars:35 }}
             </div>
-
             <span class="mockup-xp"> +{{ level.xp_reward }} XP </span>
           </div>
           {% endfor %}
         </div>
       </div>
-
       <div class="floating-card fc-1">
         <div class="fc-icon">🔥</div>
-        <div class="fc-text">
-          <h4>3 Day Streak</h4>
-          <p>You're on fire!</p>
-        </div>
+        <div class="fc-text"><h4>3 {% tr "home.streak" %}</h4><p>{% tr "home.on_fire" %}</p></div>
       </div>
       <div class="floating-card fc-2">
         <div class="fc-icon cyan">🏆</div>
-        <div class="fc-text">
-          <h4>Leaderboard</h4>
-          {% if top_user %}
-            <p>{{ top_user.username }} is #1</p>
-          {% endif %}
-        </div>
+        <div class="fc-text"><h4>{% tr "nav.leaderboard" %}</h4>{% if top_user %}<p>{{ top_user.username }} #1</p>{% endif %}</div>
       </div>
     </div>
   </div>
@@ -78,110 +60,56 @@ Harder{% endblock %} {% block main_content %}
 
 <section class="section-padding">
   <div class="container">
-    <div class="section-header">
-      <span class="section-tag">Key Features</span>
-      <h2 class="section-title">Built for Interactive Thinkers</h2>
-      <p class="section-subtitle">
-        Ditch the boring lectures. EduQuests gamifies the entire curriculum to
-        keep you motivated and advancing.
-      </p>
+    <div class="section-header reveal">
+      <span class="section-tag">{% tr "home.features_tag" %}</span>
+      <h2 class="section-title">{% tr "home.features_title" %}</h2>
+      <p class="section-subtitle">{% tr "home.features_sub" %}</p>
     </div>
-
     <div class="features-grid">
-      <div class="feature-card">
+      <div class="feature-card reveal stagger-1 hover-lift">
         <div class="feature-icon-wrapper">🎮</div>
-        <h3>Missions Instead of Lessons</h3>
-        <p>
-          Learn through engaging, game-like challenges! Solve problems, earn
-          multipliers, and lock in concepts through active recall and sandbox
-          environments.
-        </p>
+        <h3>{% tr "home.feat1_title" %}</h3>
+        <p>{% tr "home.feat1_text" %}</p>
       </div>
-
-      <div class="feature-card">
+      <div class="feature-card reveal stagger-2 hover-lift">
         <div class="feature-icon-wrapper">👩‍🏫</div>
-        <h3>Learn to Complete All Tasks</h3>
-        <p>
-          Study and accomplish every task with ease. Break down complicated
-          engineering, science, or language subjects into micro-milestones that
-          are easy to digest.
-        </p>
+        <h3>{% tr "home.feat2_title" %}</h3>
+        <p>{% tr "home.feat2_text" %}</p>
       </div>
-
-      <div class="feature-card">
+      <div class="feature-card reveal stagger-3 hover-lift">
         <div class="feature-icon-wrapper">📈</div>
-        <h3>Leaderboard</h3>
-        <p>
-          Compete with peers and climb the ranks. Showcase your achievements,
-          track your global points, and push yourself to stay at the top of the
-          weekly league.
-        </p>
+        <h3>{% tr "nav.leaderboard" %}</h3>
+        <p>{% tr "home.feat3_text" %}</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section-padding how-it-works">
+<section class="section-padding how-it-works alt-bg">
   <div class="container">
-    <div class="section-header">
-      <span class="section-tag">Simple Process</span>
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">
-        Your pathway to mastering new skills, one quest at a time.
-      </p>
+    <div class="section-header reveal">
+      <span class="section-tag">{% tr "home.process_tag" %}</span>
+      <h2 class="section-title">{% tr "home.process_title" %}</h2>
+      <p class="section-subtitle">{% tr "home.process_sub" %}</p>
     </div>
-
     <div class="steps-container">
-      <div class="step-card">
-        <div class="step-number">01</div>
-        <h3>Choose Subject</h3>
-        <p>
-          Browse through our library of specialized tech, math, science, and
-          logic courses.
-        </p>
-      </div>
-
-      <div class="step-card">
-        <div class="step-number">02</div>
-        <h3>Complete Missions</h3>
-        <p>
-          Finish bite-sized tasks, write code, run experiments, and verify your
-          answers.
-        </p>
-      </div>
-
-      <div class="step-card">
-        <div class="step-number">03</div>
-        <h3>Earn XP</h3>
-        <p>
-          Accumulate experience points for each successfully solved query or
-          challenge.
-        </p>
-      </div>
-
-      <div class="step-card">
-        <div class="step-number">04</div>
-        <h3>Climb Leaderboard</h3>
-        <p>
-          Match your score against friends, level up, and achieve legendary
-          master status.
-        </p>
-      </div>
+      <div class="step-card reveal stagger-1 hover-lift"><div class="step-number">01</div><h3>{% tr "nav.subjects" %}</h3><p>{% tr "home.step1_text" %}</p></div>
+      <div class="step-card reveal stagger-2 hover-lift"><div class="step-number">02</div><h3>{% tr "home.step2_title" %}</h3><p>{% tr "home.step2_text" %}</p></div>
+      <div class="step-card reveal stagger-3 hover-lift"><div class="step-number">03</div><h3>{% tr "home.step3_title" %}</h3><p>{% tr "home.step3_text" %}</p></div>
+      <div class="step-card reveal stagger-4 hover-lift"><div class="step-number">04</div><h3>{% tr "nav.leaderboard" %}</h3><p>{% tr "home.step4_text" %}</p></div>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
+<section class="cta-section reveal">
   <div class="container cta-container">
-    <h2 class="cta-title">Ready to Begin Your Quest?</h2>
-    <p class="cta-subtitle">
-      Join EduQuests — where learning becomes an adventure!
-    </p>
+    <h2 class="cta-title">{% tr "home.cta_title" %}</h2>
+    <p class="cta-subtitle">{% tr "home.cta_sub" %}</p>
     <div>
       {% if request.user.is_authenticated %}
-      <a href="{{ subjects_url }}" class="btn btn-primary">Start Now</a>
+      <a href="{{ subjects_url }}" class="btn btn-primary">{% tr "home.start_now" %}</a>
       {% else %}
-      <a href="/register/" class="btn btn-primary">Start Now</a>
+      <a href="/register/" class="btn btn-primary">{% tr "home.start_now" %}</a>
       {% endif %}
     </div>
   </div>

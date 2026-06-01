@@ -1,0 +1,212 @@
+/* EduQuests — motion & scroll reveals */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+  50% { box-shadow: 0 0 24px 4px rgba(99, 102, 241, 0.25); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.1s; }
+.stagger-3 { transition-delay: 0.15s; }
+.stagger-4 { transition-delay: 0.2s; }
+.stagger-5 { transition-delay: 0.25s; }
+.stagger-6 { transition-delay: 0.3s; }
+
+/* Page enter */
+.page-enter {
+  animation: fadeInUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-header.page-enter .page-title {
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+.page-header.page-enter .page-subtitle {
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+
+/* Interactive cards */
+.hover-lift {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+}
+
+[data-theme="dark"] .hover-lift:hover {
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(129, 140, 248, 0.15);
+}
+
+[data-theme="light"] .hover-lift:hover,
+html:not([data-theme="dark"]) .hover-lift:hover {
+  box-shadow: 0 20px 40px -12px rgba(99, 102, 241, 0.18);
+}
+
+/* Gradient orbs (decorative) */
+.bg-orbs {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-orbs::before,
+.bg-orbs::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-orbs::before {
+  width: 400px;
+  height: 400px;
+  top: -120px;
+  right: -80px;
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+  animation: floatSoft 8s ease-in-out infinite;
+}
+
+.bg-orbs::after {
+  width: 320px;
+  height: 320px;
+  bottom: -100px;
+  left: -60px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  animation: floatSoft 10s ease-in-out infinite reverse;
+}
+
+[data-theme="dark"] .bg-orbs::before { opacity: 0.2; }
+[data-theme="dark"] .bg-orbs::after { opacity: 0.15; }
+
+.bg-orbs > .container,
+.bg-orbs > .container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Stat cards pulse on about */
+.stat-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Theme toggle spin */
+.theme-toggle-btn:active {
+  transform: scale(0.92) rotate(15deg);
+}
+
+.lang-btn {
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.lang-btn:active {
+  transform: scale(0.95);
+}
+
+/* Hero floating cards */
+.floating-card {
+  animation: floatSoft 5s ease-in-out infinite;
+}
+
+.fc-2 { animation-delay: 1.2s; }
+
+/* Button ripple feel */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(100%);
+}
+
+/* Leaderboard podium entrance */
+.podium-card {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.podium-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}

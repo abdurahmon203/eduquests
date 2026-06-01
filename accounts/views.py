@@ -306,18 +306,15 @@ def about_view(request):
 
 
 def contact_view(request):
+    from eduquests.i18n_strings import get_text
+
+    lang = request.session.get("django_language", "en")
     if request.method == "POST":
-        form = ContactForm(request.POST)
+        form = ContactForm(request.POST, lang=lang)
         if form.is_valid():
-            messages.success(
-                request,
-                "Your message has been sent successfully! We will get back to you shortly.",
-            )
+            messages.success(request, get_text("contact.success", lang))
             return redirect("contact")
-        messages.error(
-            request,
-            "There was an error in your submission. Please check the fields below.",
-        )
+        messages.error(request, get_text("contact.error", lang))
     else:
-        form = ContactForm()
+        form = ContactForm(lang=lang)
     return render(request, "contact.html", {"form": form})

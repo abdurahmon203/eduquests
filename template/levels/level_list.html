@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load tr_tags %}
 
-{% block title %}{{ subject.name }} - Levels - EduQuests{% endblock %}
+{% block title %}{{ subject.name }} - {% tr "common.level" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<div class="page-header">
+<div class="page-header page-enter">
   <div class="container">
     <nav class="breadcrumb">
-      <a href="{% url 'subject_list' %}">Subjects</a>
+      <a href="{% url 'subject_list' %}">{% tr "nav.subjects" %}</a>
       <span>/</span>
       <span>{{ subject.name }}</span>
     </nav>
@@ -20,29 +21,25 @@
     {% if levels %}
     <div class="level-grid">
       {% for level in levels %}
-      <article class="level-card{% if level.id in completed_level_ids %} completed{% endif %}">
+      <article class="level-card reveal stagger-{{ forloop.counter }} hover-lift{% if level.id in completed_level_ids %} completed{% endif %}">
         <div class="level-meta">
-          <span class="badge badge-indigo">Level {{ level.level_number }}</span>
-          {% if level.id in completed_level_ids %}
-          <span class="badge badge-cyan">Completed</span>
-          {% endif %}
+          <span class="badge badge-indigo">{% tr "common.level" %} {{ level.level_number }}</span>
+          {% if level.id in completed_level_ids %}<span class="badge badge-cyan">{% tr "levels.completed" %}</span>{% endif %}
         </div>
         <h2>{{ level.title }}</h2>
         <p>{{ level.description }}</p>
-        <p class="level-meta">
-          <span class="badge badge-indigo">{{ level.xp_reward }} XP</span>
-        </p>
+        <p class="level-meta"><span class="badge badge-indigo">{{ level.xp_reward }} XP</span></p>
         <a href="{% url 'quiz' level.id %}" class="btn btn-primary">
-          {% if level.id in completed_level_ids %}Retry Quiz{% else %}Start Quiz{% endif %}
+          {% if level.id in completed_level_ids %}{% tr "levels.retry" %}{% else %}{% tr "levels.start_quiz" %}{% endif %}
         </a>
       </article>
       {% endfor %}
     </div>
     {% else %}
-    <div class="empty-state">
-      <h3>No levels available</h3>
-      <p>This subject does not have any levels yet.</p>
-      <a href="{% url 'subject_list' %}" class="btn btn-secondary mt-4">Back to Subjects</a>
+    <div class="empty-state reveal">
+      <h3>{% tr "levels.no_levels" %}</h3>
+      <p>{% tr "levels.no_levels_sub" %}</p>
+      <a href="{% url 'subject_list' %}" class="btn btn-secondary mt-4">{% tr "subjects.back" %}</a>
     </div>
     {% endif %}
   </div>

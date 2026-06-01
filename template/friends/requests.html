@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load tr_tags %}
 
-{% block title %}Friend Requests - EduQuests{% endblock %}
+{% block title %}{% tr "friends.requests_title" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<div class="page-header friends-page-header">
+<div class="page-header friends-page-header page-enter">
   <div class="container">
-    <h1 class="page-title">📨 Friend Requests</h1>
-    <p class="page-subtitle">Accept or decline incoming requests.</p>
+    <h1 class="page-title">📨 {% tr "friends.requests_title" %}</h1>
+    <p class="page-subtitle">{% tr "friends.requests_sub" %}</p>
   </div>
 </div>
 
@@ -16,7 +17,7 @@
 
     <div class="friends-requests-grid">
       <div class="friends-panel">
-        <h2>Incoming Requests</h2>
+        <h2>{% tr "friends.incoming" %}</h2>
         {% if incoming %}
         <div class="friends-request-list">
           {% for item in incoming %}
@@ -24,29 +25,29 @@
             <div class="friend-avatar">{% include "friends/_avatar.html" with user=item.user %}</div>
             <div class="friends-request-info">
               <h3>@{{ item.user.username }}</h3>
-              <p>wants to be your friend</p>
+              <p>{% tr "friends.wants_friend" %}</p>
               <span class="friend-meta-item">⚡ {{ item.total_xp }} XP · Lv.{{ item.level }}</span>
             </div>
             <div class="friends-request-actions">
               <form method="POST" action="{% url 'accept_friend' item.request.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary btn-sm">Accept</button>
+                <button type="submit" class="btn btn-primary btn-sm">{% tr "friends.accept" %}</button>
               </form>
               <form method="POST" action="{% url 'reject_friend' item.request.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-secondary btn-sm">Reject</button>
+                <button type="submit" class="btn btn-secondary btn-sm">{% tr "friends.reject" %}</button>
               </form>
             </div>
           </div>
           {% endfor %}
         </div>
         {% else %}
-        <div class="friends-empty-inline"><p>No incoming requests.</p></div>
+        <div class="friends-empty-inline"><p>{% tr "friends.no_incoming" %}</p></div>
         {% endif %}
       </div>
 
       <div class="friends-panel">
-        <h2>Outgoing Requests</h2>
+        <h2>{% tr "friends.outgoing" %}</h2>
         {% if outgoing %}
         <div class="friends-request-list">
           {% for item in outgoing %}
@@ -54,15 +55,15 @@
             <div class="friend-avatar">{% include "friends/_avatar.html" with user=item.user %}</div>
             <div class="friends-request-info">
               <h3>@{{ item.user.username }}</h3>
-              <p>Waiting for response...</p>
+              <p>{% tr "friends.waiting" %}</p>
               <span class="friend-meta-item">{{ item.request.created_at|timesince }} ago</span>
             </div>
-            <span class="friend-status-pill pending">Pending</span>
+            <span class="friend-status-pill pending">{% tr "friends.pending" %}</span>
           </div>
           {% endfor %}
         </div>
         {% else %}
-        <div class="friends-empty-inline"><p>No outgoing requests.</p></div>
+        <div class="friends-empty-inline"><p>{% tr "friends.no_outgoing" %}</p></div>
         {% endif %}
       </div>
     </div>

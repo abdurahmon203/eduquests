@@ -1,20 +1,19 @@
-{% extends 'base.html' %} {% block title %}Learn - Video Lessons
--EduQuests{%endblock %} {% block main_content %}
-<div class="page-header">
+{% extends 'base.html' %}
+{% load tr_tags %}
+
+{% block title %}{% tr "levels.learn_title" %} - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header page-enter bg-orbs">
   <div class="container">
     <nav class="breadcrumb">
-      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'home' %}">{% tr "nav.home" %}</a>
       <span>/</span>
-      {% if has_subjects_url %}
-      <a href="{{ subjects_url }}">Subjects</a>
-      <span>/</span>
-      {% endif %}
-      <span>Learn</span>
+      {% if has_subjects_url %}<a href="{{ subjects_url }}">{% tr "nav.subjects" %}</a><span>/</span>{% endif %}
+      <span>{% tr "nav.learn" %}</span>
     </nav>
-    <h1 class="page-title">Video Lessons</h1>
-    <p class="page-subtitle">
-      Watch lessons, then take the quiz to earn XP and climb the leaderboard.
-    </p>
+    <h1 class="page-title">{% tr "levels.learn_title" %}</h1>
+    <p class="page-subtitle">{% tr "levels.learn_sub" %}</p>
   </div>
 </div>
 
@@ -23,59 +22,34 @@
     {% if levels %}
     <div class="learn-video-grid">
       {% for level in levels %}
-      <article class="learn-video-card" id="level-{{ level.id }}">
+      <article class="learn-video-card reveal hover-lift" id="level-{{ level.id }}">
         <div class="learn-video-card-header">
           <div class="level-meta">
             <span class="badge badge-indigo">{{ level.subject.name }}</span>
-            <span class="badge badge-cyan">Level {{ level.level_number }}</span>
+            <span class="badge badge-cyan">{% tr "common.level" %} {{ level.level_number }}</span>
           </div>
           <h2>{{ level.title }}</h2>
-          {% if level.description %}
-          <p class="learn-video-desc">{{ level.description }}</p>
-          {% endif %}
+          {% if level.description %}<p class="learn-video-desc">{{ level.description }}</p>{% endif %}
         </div>
-
         {% if level.youtube_video_id %}
         <div class="learn-video-player">
-          <iframe
-            width="100%"
-            height="500"
-            src="https://www.youtube.com/embed/{{ level.youtube_video_id }}"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          >
-          </iframe>
+          <iframe width="100%" height="500" src="https://www.youtube.com/embed/{{ level.youtube_video_id }}" title="YouTube" allowfullscreen></iframe>
         </div>
         {% else %}
-        <div class="learn-video-missing">
-          <p>Video link is not available for this lesson yet.</p>
-        </div>
+        <div class="learn-video-missing"><p>{% tr "levels.video_missing" %}</p></div>
         {% endif %}
-
         <div class="learn-video-actions">
-          <a href="{% url 'quiz' level.id %}" class="btn btn-primary"
-            >Take Quiz</a
-          >
-          <a
-            href="{% url 'level_list' level.subject.id %}"
-            class="btn btn-secondary"
-            >All Levels</a
-          >
+          <a href="{% url 'quiz' level.id %}" class="btn btn-primary">{% tr "levels.take_quiz" %}</a>
+          <a href="{% url 'level_list' level.subject.id %}" class="btn btn-secondary">{% tr "levels.all_levels" %}</a>
         </div>
       </article>
       {% endfor %}
     </div>
     {% else %}
-    <div class="empty-state">
-      <h3>No video lessons yet</h3>
-      <p>Lessons with a YouTube link will appear here.</p>
-      {% if has_subjects_url %}
-      <a href="{{ subjects_url }}" class="btn btn-primary mt-4"
-        >Browse Subjects</a
-      >
-      {% endif %}
+    <div class="empty-state reveal">
+      <h3>{% tr "levels.no_video_title" %}</h3>
+      <p>{% tr "levels.no_video_sub" %}</p>
+      {% if has_subjects_url %}<a href="{{ subjects_url }}" class="btn btn-primary mt-4">{% tr "levels.browse_subjects" %}</a>{% endif %}
     </div>
     {% endif %}
   </div>

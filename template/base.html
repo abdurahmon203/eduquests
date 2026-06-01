@@ -1,12 +1,21 @@
-{% load static %}
+{% load static tr_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ current_language }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}EduQuests - Gamified Learning{% endblock %}</title>    
+    <title>{% block title %}{% tr "site.title" %}{% endblock %}</title>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('eduquests-theme');
+          if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}" />
     {% block extra_head %}{% endblock %}
   </head>
 
@@ -17,61 +26,84 @@
           Edu<span class="logo-accent">Quests</span>
         </a>
 
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+        <button class="nav-toggle" id="nav-toggle" aria-label="{% tr 'nav.toggle' %}">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
         <nav id="nav-menu">
-          <a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a>
-          <a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
-          <a href="/contact/" class="{% if request.path == '/contact/' %}active{% endif %}">Contact</a>
+          <a href="/" class="{% if request.path == '/' %}active{% endif %}">{% tr "nav.home" %}</a>
+          <a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">{% tr "nav.about" %}</a>
+          <a href="/contact/" class="{% if request.path == '/contact/' %}active{% endif %}">{% tr "nav.contact" %}</a>
           {% if has_subjects_url %}
-          <a href="{{ subjects_url }}" class="{% if request.path == subjects_url %}active{% endif %}">Subjects</a>
+          <a href="{{ subjects_url }}" class="{% if request.path == subjects_url %}active{% endif %}">{% tr "nav.subjects" %}</a>
           {% endif %}
-          <a href="/levels/learn/" class="{% if request.path == '/levels/learn/' %}active{% endif %}">Learn</a>
-          <a href="{% url 'ai_tutor_chat' %}" class="{% if request.path == '/ai-tutor/' %}active{% endif %}">AI Tutor</a>
-          <a href="{% url 'leaderboard' %}" class="{% if request.path == '/leaderboard/' %}active{% endif %}">Leaderboard</a>
+          <a href="/levels/learn/" class="{% if request.path == '/levels/learn/' %}active{% endif %}">{% tr "nav.learn" %}</a>
+          <a href="{% url 'ai_tutor_chat' %}" class="{% if request.path == '/ai-tutor/' %}active{% endif %}">{% tr "nav.ai_tutor" %}</a>
+          <a href="{% url 'leaderboard' %}" class="{% if request.path == '/leaderboard/' %}active{% endif %}">{% tr "nav.leaderboard" %}</a>
           {% if request.user.is_authenticated %}
           <div class="nav-dropdown" id="friends-dropdown">
             <button type="button" class="nav-dropdown-toggle {% if '/friends/' in request.path and '/friends/leaderboard/' not in request.path %}active{% endif %}" id="friends-dropdown-btn" aria-expanded="false">
-              👥 Friends
+              👥 {% tr "nav.friends" %}
               {% if pending_friend_requests_count %}
               <span class="nav-badge">{{ pending_friend_requests_count }}</span>
               {% endif %}
             </button>
             <div class="nav-dropdown-menu" id="friends-dropdown-menu">
-              <a href="{% url 'friends_list' %}">Friends List</a>
-              <a href="{% url 'friends_search' %}">Search Friends</a>
+              <a href="{% url 'friends_list' %}">{% tr "nav.friends_list" %}</a>
+              <a href="{% url 'friends_search' %}">{% tr "nav.search_friends" %}</a>
               <a href="{% url 'friend_requests' %}">
-                Friend Requests
+                {% tr "nav.friend_requests" %}
                 {% if pending_friend_requests_count %}<span class="nav-badge nav-badge-sm">{{ pending_friend_requests_count }}</span>{% endif %}
               </a>
-              <a href="{% url 'friends_leaderboard' %}" class="{% if request.path == '/friends/leaderboard/' %}active{% endif %} ehson">Squad Rank</a>
+              <a href="{% url 'friends_leaderboard' %}" class="{% if request.path == '/friends/leaderboard/' %}active{% endif %} ehson">{% tr "nav.squad_rank" %}</a>
               <a href="{% url 'notifications_list' %}" class="nav-notifications-link {% if request.path == '/notifications/' %}active{% endif %} ehson">
-                🔔 Notifications
+                🔔 {% tr "nav.notifications" %}
                 {% if unread_notifications_count %}<span class="nav-badge nav-badge-inline">{{ unread_notifications_count }}</span>{% endif %}
               </a>
             </div>
           </div>
-            <a href="{% url 'profile' %}" class="{% if request.path == '/profile/' %}active{% endif %}">Profile</a>
+          <a href="{% url 'profile' %}" class="{% if request.path == '/profile/' %}active{% endif %}">{% tr "nav.profile" %}</a>
           {% endif %}
         </nav>
 
         <div class="nav-right" id="nav-right">
+          <div class="nav-controls">
+            <div class="lang-switcher" role="group" aria-label="Language">
+              {% for code in supported_languages %}
+              <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="{{ code }}" />
+                <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                <button type="submit" class="lang-btn {% if current_language == code %}active{% endif %}" title="{{ code }}">
+                  {{ code|upper }}
+                </button>
+              </form>
+              {% endfor %}
+            </div>
+            <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="{% tr 'nav.theme_dark' %}">
+              <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            </button>
+          </div>
+
           <div class="auth-buttons">
             {% if request.user.is_authenticated %}
-              <span class="user-info">
+              <!-- <span class="user-info">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
                 {{ request.user.username }}
-              </span>
-              <a href="/logout/" class="btn btn-secondary btn-sm log-but">Logout</a>
+              </span> -->
+              <a href="/logout/" class="btn btn-header-outline btn-sm log-but">{% tr "nav.logout" %}</a>
             {% else %}
-              <a href="/login/" class="btn btn-secondary btn-sm">Login</a>
-              <a href="/register/" class="btn btn-primary btn-sm">Register</a>
+              <a href="/login/" class="btn btn-header-outline btn-sm">{% tr "nav.login" %}</a>
+              <a href="/register/" class="btn btn-primary btn-sm">{% tr "nav.register" %}</a>
             {% endif %}
           </div>
         </div>
@@ -100,7 +132,7 @@
               </span>
               <span>{{ message }}</span>
             </div>
-            <button class="toast-close" onclick="this.parentElement.remove()" aria-label="Close message">
+            <button class="toast-close" onclick="this.parentElement.remove()" aria-label="Close">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -130,61 +162,63 @@
         <div class="footer-grid">
           <div class="footer-brand">
             <h3>Edu<span class="logo-accent">Quests</span></h3>
-            <p>EduQuests makes learning an adventure. Build skills, earn points, and compete with peers.</p>
+            <p>{% tr "footer.tagline" %}</p>
           </div>
           <div class="footer-col">
-            <h4>Learn</h4>
+            <h4>{% tr "footer.learn" %}</h4>
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/about/">About Us</a></li>
-              <li><a href="/contact/">Contact</a></li>
-              <li><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
+              <li><a href="/">{% tr "nav.home" %}</a></li>
+              <li><a href="/about/">{% tr "footer.about_us" %}</a></li>
+              <li><a href="/contact/">{% tr "nav.contact" %}</a></li>
+              <li><a href="{% url 'leaderboard' %}">{% tr "nav.leaderboard" %}</a></li>
             </ul>
           </div>
           <div class="footer-col">
-            <h4>Account</h4>
+            <h4>{% tr "footer.account" %}</h4>
             <ul>
               {% if request.user.is_authenticated %}
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-                <li><a href="/logout/">Logout</a></li>
+                <li><a href="{% url 'profile' %}">{% tr "nav.profile" %}</a></li>
+                <li><a href="/logout/">{% tr "nav.logout" %}</a></li>
               {% else %}
-                <li><a href="/login/">Login</a></li>
-                <li><a href="/register/">Register</a></li>
+                <li><a href="/login/">{% tr "nav.login" %}</a></li>
+                <li><a href="/register/">{% tr "nav.register" %}</a></li>
               {% endif %}
             </ul>
           </div>
           <div class="footer-col">
-            <h4>Support</h4>
+            <h4>{% tr "footer.support" %}</h4>
             <ul>
-              <li><a href="#">Help Center</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">{% tr "footer.help" %}</a></li>
+              <li><a href="#">{% tr "footer.privacy" %}</a></li>
+              <li><a href="#">{% tr "footer.terms" %}</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>© 2026 EduQuests. All rights reserved.</p>
+          <p>© 2026 EduQuests. {% tr "footer.rights" %}</p>
           <div class="footer-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Cookies</a>
+            <a href="#">{% tr "footer.privacy" %}</a>
+            <a href="#">{% tr "footer.terms" %}</a>
+            <a href="#">{% tr "footer.cookies" %}</a>
           </div>
         </div>
       </div>
     </footer>
 
+    <script src="{% static 'js/theme-lang.js' %}"></script>
+    <script src="{% static 'js/animations.js' %}"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const toggleBtn = document.getElementById('nav-toggle');
         const header = document.querySelector('header');
-        
+
         if (toggleBtn) {
           toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             header.classList.toggle('mobile-menu-open');
           });
         }
-        
+
         document.addEventListener('click', (e) => {
           if (header.classList.contains('mobile-menu-open') && !header.contains(e.target)) {
             header.classList.remove('mobile-menu-open');

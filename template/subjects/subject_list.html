@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load tr_tags %}
 
-{% block title %}Subjects - EduQuests{% endblock %}
+{% block title %}{% tr "subjects.title" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<div class="page-header">
+<div class="page-header page-enter bg-orbs">
   <div class="container">
-  <h1 class="page-title">Choose Your Quest</h1>
-  <p class="page-subtitle">Pick a subject and start leveling up through interactive quizzes.</p>
+    <h1 class="page-title">{% tr "subjects.choose" %}</h1>
+    <p class="page-subtitle">{% tr "subjects.subtitle" %}</p>
   </div>
 </div>
 
@@ -15,20 +16,19 @@
     {% if subjects %}
     <div class="subject-grid">
       {% for subject in subjects %}
-      <article class="subject-card">
+      <article class="subject-card reveal stagger-{{ forloop.counter }} hover-lift">
         {% if subject.image %}
         <img src="{{ subject.image.url }}" alt="{{ subject.name }}" class="subject-card-image" />
         {% endif %}
         <h2>{{ subject.name }}</h2>
         <p>{{ subject.description }}</p>
-        <a href="{% url 'level_list' subject.id %}" class="btn btn-primary">Open Subject</a>
+        <a href="{% url 'level_list' subject.id %}" class="btn btn-primary">{% tr "subjects.open" %}</a>
       </article>
       {% endfor %}
     </div>
     {% else %}
-    <div class="empty-state">
-      <h3>No subjects yet</h3>
-      <p>Check back soon — new learning paths are on the way.</p>
+    <div class="empty-state reveal">
+      <h3>{% tr "subjects.empty" %}</h3>
     </div>
     {% endif %}
   </div>

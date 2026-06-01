@@ -1,52 +1,47 @@
 {% extends 'base.html' %}
+{% load tr_tags %}
 
-{% block title %}Register - EduQuests{% endblock %}
+{% block title %}{% tr "auth.register_title" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<div class="auth-wrapper">
-  <div class="auth-card" style="max-width: 560px;">
+<div class="auth-wrapper page-enter">
+  <div class="auth-card reveal-scale hover-lift" style="max-width: 560px;">
     <div class="auth-header">
       <div class="auth-logo">Edu<span>Quests</span></div>
-      <h2 class="auth-title">Create an Account</h2>
-      <p class="auth-subtitle">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+      <h2 class="auth-title">{% tr "auth.create_account" %}</h2>
+      <p class="auth-subtitle">{% tr "auth.have_account" %} <a href="{% url 'login' %}">{% tr "auth.login_title" %}</a></p>
     </div>
-    
     <form method="POST" novalidate>
       {% csrf_token %}
-      
       <div class="form-row">
         <div class="form-group">
-          <label for="first_name_input">First Name</label>
-          <input type="text" id="first_name_input" name="first_name" class="form-input" placeholder="John" required />
+          <label for="first_name_input">{% tr "auth.first_name" %}</label>
+          <input type="text" id="first_name_input" name="first_name" class="form-input" required />
         </div>
         <div class="form-group">
-          <label for="last_name_input">Last Name</label>
-          <input type="text" id="last_name_input" name="last_name" class="form-input" placeholder="Doe" required />
+          <label for="last_name_input">{% tr "auth.last_name" %}</label>
+          <input type="text" id="last_name_input" name="last_name" class="form-input" required />
         </div>
       </div>
-      
       <div class="form-group">
-        <label for="username_input">Username</label>
-        <input type="text" id="username_input" name="username" class="form-input" placeholder="johndoe12" required />
+        <label for="username_input">{% tr "auth.username" %}</label>
+        <input type="text" id="username_input" name="username" class="form-input" required />
       </div>
-      
       <div class="form-group">
-        <label for="email_input">Email Address</label>
-        <input type="email" id="email_input" name="email" class="form-input" placeholder="john@example.com" required />
+        <label for="email_input">{% tr "auth.email" %}</label>
+        <input type="email" id="email_input" name="email" class="form-input" required />
       </div>
-      
       <div class="form-row">
         <div class="form-group">
-          <label for="password_input">Password</label>
-          <input type="password" id="password_input" name="password" class="form-input" placeholder="••••••••" required />
+          <label for="password_input">{% tr "auth.password" %}</label>
+          <input type="password" id="password_input" name="password" class="form-input" required />
         </div>
         <div class="form-group">
-          <label for="confirm_password_input">Confirm Password</label>
-          <input type="password" id="confirm_password_input" name="confirm_password" class="form-input" placeholder="••••••••" required />
+          <label for="confirm_password_input">{% tr "auth.confirm_password" %}</label>
+          <input type="password" id="confirm_password_input" name="confirm_password" class="form-input" required />
         </div>
       </div>
-      
-      <button type="submit" class="btn btn-primary form-submit-btn">Register</button>
+      <button type="submit" class="btn btn-primary form-submit-btn">{% tr "auth.register_title" %}</button>
     </form>
   </div>
 </div>

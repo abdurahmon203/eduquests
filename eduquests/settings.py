@@ -47,6 +47,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "eduquests",
     "accounts",
     "gamification",
     "friends",
@@ -65,6 +66,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "eduquests.middleware.EduQuestsLocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -86,6 +88,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "accounts.context_processors.eduquests_context",
                 "friends.context_processors.friends_context",
+                "eduquests.context_processors.i18n_theme_context",
             ],
         },
     },
@@ -154,4 +157,5 @@ EMAIL_HOST_PASSWORD = "jebg kuvl dwyz dkpb"
 AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailOrUsernameBackend',
 ]
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")

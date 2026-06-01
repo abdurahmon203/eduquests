@@ -1,40 +1,38 @@
 {% extends 'base.html' %}
+{% load tr_tags %}
 
-{% block title %}Quiz Result - EduQuests{% endblock %}
+{% block title %}{% tr "quiz.result" %} - EduQuests{% endblock %}
 
 {% block main_content %}
-<div class="page-header">
+<div class="page-header page-enter">
   <div class="container">
-    <h1 class="page-title">Quiz Complete</h1>
+    <h1 class="page-title">{% tr "quiz.result" %}</h1>
     <p class="page-subtitle">{{ level.title }} · {{ level.subject.name }}</p>
   </div>
 </div>
 
 <section class="learn-section">
   <div class="container result-wrapper">
-    <div class="result-card">
-      <p class="badge badge-indigo">Your Result</p>
-      <div class="result-score">{{ score }}<span>/100</span></div>
-
-      {% if score >= 50 %}
-      <p class="result-status pass">Passed — Great work!</p>
-      <p>You unlocked XP and made progress on this level.</p>
+    <div class="result-card reveal-scale hover-lift">
+      <p class="badge badge-indigo">{% tr "quiz.your_result" %}</p>
+      <div class="result-score">{{ score }}<span>/{{ max_score }}</span></div>
+      {% if passed %}
+      <p class="result-status pass">{% tr "quiz.passed" %}</p>
+      <p>{% tr "quiz.passed_sub" %}</p>
       {% else %}
-      <p class="result-status fail">Not quite — try again</p>
-      <p>You need at least 50 points to pass. Review the material and retry.</p>
+      <p class="result-status fail">{% tr "quiz.failed" %}</p>
+      <p>{% tr "quiz.failed_sub" %} {{ pass_threshold }} {% tr "quiz.points_pass" %}</p>
       {% endif %}
-
       {% if progress %}
-      <p class="mt-4" style="color: var(--color-slate-500); font-size: 14px;">
-        Attempts: {{ progress.attempts }}
-        {% if progress.is_completed %} · Level completed{% endif %}
+      <p class="mt-4 result-meta">
+        {% tr "quiz.attempts" %}: {{ progress.attempts }}
+        {% if progress.is_completed %} · {% tr "quiz.level_done" %}{% endif %}
       </p>
       {% endif %}
-
       <div class="result-actions">
-        <a href="{% url 'quiz' level.id %}" class="btn btn-primary">Retry Quiz</a>
-        <a href="{% url 'level_list' level.subject.id %}" class="btn btn-secondary">Back to Levels</a>
-        <a href="{% url 'subject_list' %}" class="btn btn-secondary">All Subjects</a>
+        <a href="{% url 'quiz' level.id %}" class="btn btn-primary">{% tr "quiz.retry" %}</a>
+        <a href="{% url 'level_list' level.subject.id %}" class="btn btn-secondary">{% tr "quiz.back_levels" %}</a>
+        <a href="{% url 'subject_list' %}" class="btn btn-secondary">{% tr "quiz.all_subjects" %}</a>
       </div>
     </div>
   </div>
