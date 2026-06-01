@@ -14,7 +14,7 @@
 <section class="section-padding">
   <div class="container">
     <div class="contact-grid">
-      <div class="contact-info-card reveal hover-lift">
+      <div class="contact-info-card reveal-left hover-lift tilt-card animate-border">
         <div class="cic-header">
           <h3>{% tr "contact.info_title" %}</h3>
           <p>{% tr "contact.info_sub" %}</p>
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <div class="contact-form-card reveal stagger-2 hover-lift">
+      <div class="contact-form-card reveal-right hover-lift tilt-card animate-border">
         <h3>{% tr "contact.form_title" %}</h3>
         <form method="POST" action="{% url 'contact' %}" novalidate>
           {% csrf_token %}

@@ -19,8 +19,11 @@
     {% block extra_head %}{% endblock %}
   </head>
 
-  <body>
-    <header>
+  <body class="motion-body">
+    <div class="motion-mesh" aria-hidden="true"></div>
+    <div id="particle-field" class="particle-field" aria-hidden="true"></div>
+
+    <header id="site-header">
       <div class="navbar-container">
         <a href="/" class="logo-link">
           Edu<span class="logo-accent">Quests</span>
@@ -153,7 +156,7 @@
       </script>
     {% endif %}
 
-    <main>
+    <main id="page-transition">
       {% block main_content %}{% endblock %}
     </main>
 

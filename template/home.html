@@ -6,7 +6,7 @@
 {% block main_content %}
 <section class="hero bg-orbs">
   <div class="container hero-grid page-enter">
-    <div class="hero-content reveal">
+    <div class="hero-content reveal-left">
       <span class="hero-tag">
         <span class="badge badge-indigo">{% tr "common.new" %}</span> {% tr "home.tag" %}
       </span>
@@ -16,23 +16,23 @@
       <p class="hero-subtitle">{% tr "home.subtitle" %}</p>
       <div class="hero-actions">
         {% if request.user.is_authenticated %}
-        <a href="{{ subjects_url }}" class="btn btn-primary">{% tr "home.get_started" %}</a>
+        <a href="{{ subjects_url }}" class="btn btn-primary btn-animated">{% tr "home.get_started" %}</a>
         <a href="{{ subjects_url }}" class="btn btn-outline">{% tr "home.start_now" %}</a>
         {% else %}
-        <a href="/register/" class="btn btn-primary">{% tr "home.get_started" %}</a>
+        <a href="/register/" class="btn btn-primary btn-animated">{% tr "home.get_started" %}</a>
         <a href="/register/" class="btn btn-outline">{% tr "home.start_now" %}</a>
         {% endif %}
       </div>
     </div>
-    <div class="hero-visual reveal-scale">
-      <div class="canvas-mockup hover-lift">
+    <div class="hero-visual reveal-right" data-parallax="0.06">
+      <div class="canvas-mockup tilt-card hover-lift animate-border">
         <div class="mockup-header">
           <div class="mockup-dots"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span></div>
-          <div class="mockup-search"></div>
+          <div class="mockup-search shimmer-bg" style="border-radius:999px;height:8px;"></div>
         </div>
         <div class="mockup-quest-card">
           <div class="mockup-quest-title"><span>🎮</span> {% tr "home.current_quest" %}: {{ levels.0.subject.name }}</div>
-          <div class="mockup-progress-bar"><div class="mockup-progress-fill"></div></div>
+          <div class="mockup-progress-bar"><div class="mockup-progress-fill animate-progress"></div></div>
         </div>
         <div class="mockup-list">
           {% for level in levels %}
@@ -46,11 +46,11 @@
           {% endfor %}
         </div>
       </div>
-      <div class="floating-card fc-1">
+      <div class="floating-card fc-1 hover-lift">
         <div class="fc-icon">🔥</div>
         <div class="fc-text"><h4>3 {% tr "home.streak" %}</h4><p>{% tr "home.on_fire" %}</p></div>
       </div>
-      <div class="floating-card fc-2">
+      <div class="floating-card fc-2 hover-lift">
         <div class="fc-icon cyan">🏆</div>
         <div class="fc-text"><h4>{% tr "nav.leaderboard" %}</h4>{% if top_user %}<p>{{ top_user.username }} #1</p>{% endif %}</div>
       </div>
@@ -60,23 +60,23 @@
 
 <section class="section-padding">
   <div class="container">
-    <div class="section-header reveal">
+    <div class="section-header reveal-blur">
       <span class="section-tag">{% tr "home.features_tag" %}</span>
       <h2 class="section-title">{% tr "home.features_title" %}</h2>
       <p class="section-subtitle">{% tr "home.features_sub" %}</p>
     </div>
-    <div class="features-grid">
-      <div class="feature-card reveal stagger-1 hover-lift">
+    <div class="features-grid stagger-group">
+      <div class="feature-card hover-lift hover-glow tilt-card">
         <div class="feature-icon-wrapper">🎮</div>
         <h3>{% tr "home.feat1_title" %}</h3>
         <p>{% tr "home.feat1_text" %}</p>
       </div>
-      <div class="feature-card reveal stagger-2 hover-lift">
+      <div class="feature-card hover-lift hover-glow tilt-card">
         <div class="feature-icon-wrapper">👩‍🏫</div>
         <h3>{% tr "home.feat2_title" %}</h3>
         <p>{% tr "home.feat2_text" %}</p>
       </div>
-      <div class="feature-card reveal stagger-3 hover-lift">
+      <div class="feature-card hover-lift hover-glow tilt-card">
         <div class="feature-icon-wrapper">📈</div>
         <h3>{% tr "nav.leaderboard" %}</h3>
         <p>{% tr "home.feat3_text" %}</p>
@@ -87,29 +87,29 @@
 
 <section class="section-padding how-it-works alt-bg">
   <div class="container">
-    <div class="section-header reveal">
+    <div class="section-header reveal-blur">
       <span class="section-tag">{% tr "home.process_tag" %}</span>
       <h2 class="section-title">{% tr "home.process_title" %}</h2>
       <p class="section-subtitle">{% tr "home.process_sub" %}</p>
     </div>
-    <div class="steps-container">
-      <div class="step-card reveal stagger-1 hover-lift"><div class="step-number">01</div><h3>{% tr "nav.subjects" %}</h3><p>{% tr "home.step1_text" %}</p></div>
-      <div class="step-card reveal stagger-2 hover-lift"><div class="step-number">02</div><h3>{% tr "home.step2_title" %}</h3><p>{% tr "home.step2_text" %}</p></div>
-      <div class="step-card reveal stagger-3 hover-lift"><div class="step-number">03</div><h3>{% tr "home.step3_title" %}</h3><p>{% tr "home.step3_text" %}</p></div>
-      <div class="step-card reveal stagger-4 hover-lift"><div class="step-number">04</div><h3>{% tr "nav.leaderboard" %}</h3><p>{% tr "home.step4_text" %}</p></div>
+    <div class="steps-container stagger-group">
+      <div class="step-card hover-lift tilt-card"><div class="step-number">01</div><h3>{% tr "nav.subjects" %}</h3><p>{% tr "home.step1_text" %}</p></div>
+      <div class="step-card hover-lift tilt-card"><div class="step-number">02</div><h3>{% tr "home.step2_title" %}</h3><p>{% tr "home.step2_text" %}</p></div>
+      <div class="step-card hover-lift tilt-card"><div class="step-number">03</div><h3>{% tr "home.step3_title" %}</h3><p>{% tr "home.step3_text" %}</p></div>
+      <div class="step-card hover-lift tilt-card"><div class="step-number">04</div><h3>{% tr "nav.leaderboard" %}</h3><p>{% tr "home.step4_text" %}</p></div>
     </div>
   </div>
 </section>
 
-<section class="cta-section reveal">
+<section class="cta-section reveal-scale">
   <div class="container cta-container">
     <h2 class="cta-title">{% tr "home.cta_title" %}</h2>
     <p class="cta-subtitle">{% tr "home.cta_sub" %}</p>
     <div>
       {% if request.user.is_authenticated %}
-      <a href="{{ subjects_url }}" class="btn btn-primary">{% tr "home.start_now" %}</a>
+      <a href="{{ subjects_url }}" class="btn btn-primary btn-animated">{% tr "home.start_now" %}</a>
       {% else %}
-      <a href="/register/" class="btn btn-primary">{% tr "home.start_now" %}</a>
+      <a href="/register/" class="btn btn-primary btn-animated">{% tr "home.start_now" %}</a>
       {% endif %}
     </div>
   </div>

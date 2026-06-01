@@ -18,7 +18,7 @@
     {% if leaderboard|length >= 1 %}
     <div class="leaderboard-podium">
       {% for entry in leaderboard|slice:":3" %}
-      <div class="podium-card podium-rank-{{ entry.rank }} reveal-scale stagger-{{ forloop.counter }} hover-lift{% if entry.is_current_user %} podium-you{% endif %}">
+      <div class="podium-card podium-rank-{{ entry.rank }} reveal-scale hover-lift hover-glow{% if entry.is_current_user %} podium-you{% endif %}">
         <div class="podium-medal">{% if entry.rank == 1 %}🥇{% elif entry.rank == 2 %}🥈{% else %}🥉{% endif %}</div>
         <div class="podium-rank-label">#{{ entry.rank }}</div>
         <div class="podium-username">{{ entry.username }}</div>

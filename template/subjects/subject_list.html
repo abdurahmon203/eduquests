@@ -14,9 +14,9 @@
 <section class="learn-section">
   <div class="container">
     {% if subjects %}
-    <div class="subject-grid">
+    <div class="subject-grid stagger-group">
       {% for subject in subjects %}
-      <article class="subject-card reveal stagger-{{ forloop.counter }} hover-lift">
+      <article class="subject-card hover-lift tilt-card hover-glow animate-border">
         {% if subject.image %}
         <img src="{{ subject.image.url }}" alt="{{ subject.name }}" class="subject-card-image" />
         {% endif %}
