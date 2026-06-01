@@ -1,75 +1,85 @@
 # 🚀 EduQuests
 
-> Level Up Your Knowledge 🎮📚
+## 🎮 Level Up Your Knowledge with AI + Gamification 📚✨
 
-EduQuests is a modern educational quiz platform built with Django.  
-Users can learn through interactive levels, earn XP, unlock achievements, and compete on leaderboards.
+**EduQuests** is a modern gamified learning platform built with **Django + JavaScript animations + AI Tutor integration**.
+
+Users learn through interactive quizzes, unlock levels, earn XP, compete with friends, and study with an AI assistant 🤖.
 
 ---
 
-# ✨ Features
+# 🌟 Key Features
 
 ## 👤 Authentication System
-
-- User Registration
-- Login & Logout
-- Profile System
-- Secure Password Hashing
+- Secure Registration / Login / Logout  
+- Profile management  
+- Password hashing & security  
 
 ## 🎯 Quiz System
+- Multiple Choice Questions (MCQ)  
+- Instant answer validation  
+- Score tracking  
+- Attempt history  
 
-- Multiple Choice Questions
-- Instant Answer Checking
-- Score Calculation
-- Attempts Tracking
+## 🧠 Subjects & Levels System
+- Multiple learning subjects  
+- Progressive difficulty levels  
+- Unlock system based on XP  
+- Structured learning path  
 
-## 🧠 Subjects & Levels
+## 🏆 Gamification Engine
+- ⭐ XP (Experience Points)  
+- 🏅 User Levels  
+- 🥇 Leaderboard system  
+- 🔥 Progress tracking  
+- 🎯 Motivation-based learning system  
 
-- Multiple Subjects
-- Unlockable Levels
-- Difficulty Progression
-- Educational Content
+## 🤝 Friends System
+- Add friends  
+- Compare scores  
+- Friend leaderboard  
+- Social learning experience  
 
-## 🏆 Gamification
+## 🤖 AI Tutor (NEW 🚀)
+- AI-powered learning assistant  
+- Explains answers  
+- Helps users understand mistakes  
+- Interactive learning support  
 
-- XP Reward System
-- Leaderboards
-- User Rankings
-- Achievement Feeling
+## 🌍 Language Switcher
+- Multi-language support  
+- Dynamic UI translation  
+- Better accessibility  
 
-## 📱 Responsive UI
-
-- Mobile Friendly
-- Modern Design
-- Smooth Animations
-- Clean Interface
+## 🎨 Modern UI + Animations
+- Smooth JavaScript animations ✨  
+- Interactive UI effects  
+- Dynamic transitions  
+- Responsive design (mobile + desktop)  
+- Modern gamified interface  
 
 ---
 
-# 🛠 Technologies Used
+# 🛠 Tech Stack
 
 ## Backend
-
-- Python
-- Django
-- SQLite / PostgreSQL
+- Python 🐍  
+- Django 🌐  
+- SQLite / PostgreSQL  
 
 ## Frontend
+- HTML5  
+- CSS3  
+- JavaScript (Animations + UI effects)  
 
-- HTML5
-- CSS3
-- JavaScript
-
-## Tools
-
-- Git
-- GitHub
-- VS Code
+## Extras
+- AI integration 🤖  
+- Git & GitHub  
+- VS Code  
 
 ---
 
 # 📂 Project Structure
-
 ```bash
 EduQuests/
 │
@@ -78,11 +88,41 @@ EduQuests/
 ├── subjects/
 ├── levels/
 ├── gamification/
+├── friends/
+├── ai_tutor/
 │
 ├── templates/
 ├── static/
 ├── media/
 │
 ├── manage.py
-└── requirements.txt
+├── requirements.txt
+└── .env.example
 ```
+
+---
+
+# 🚀 Future Improvements
+
+- 📱 Mobile App version (React Native)  
+- 🧠 More advanced AI tutor (GPT-like explanations)  
+- 🎮 Daily quests + streak system  
+- 📊 Analytics dashboard  
+- 🔔 Notification system  
+
+---
+
+# 💡 Project Vision
+
+**EduQuests** is designed to make learning:
+
+- 👉 more fun  
+- 👉 more addictive (in a good way 😄)  
+- 👉 more interactive  
+- 👉 and AI-assisted  
+
+---
+
+# 🧑‍💻 Author
+
+Built with ❤️ by **Abdurahmon Nazirov**
