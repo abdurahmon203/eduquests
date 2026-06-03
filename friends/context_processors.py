@@ -1,3 +1,4 @@
+from .chat_services import total_unread_chat_count
 from .models import FriendRequest, Notification
 
 
@@ -6,6 +7,7 @@ def friends_context(request):
         return {
             "pending_friend_requests_count": 0,
             "unread_notifications_count": 0,
+            "unread_chat_count": 0,
         }
 
     return {
@@ -17,4 +19,5 @@ def friends_context(request):
             recipient=request.user,
             is_read=False,
         ).count(),
+        "unread_chat_count": total_unread_chat_count(request.user),
     }

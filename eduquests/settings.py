@@ -47,6 +47,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
+    "channels",
     "eduquests",
     "accounts",
     "gamification",
@@ -95,6 +97,23 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "eduquests.wsgi.application"
+ASGI_APPLICATION = "eduquests.asgi.application"
+
+# Channels — Redis if REDIS_URL set, else in-memory (dev)
+_redis_url = os.getenv("REDIS_URL", "").strip()
+if _redis_url:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {"hosts": [_redis_url]},
+        }
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        }
+    }
 
 
 # Database

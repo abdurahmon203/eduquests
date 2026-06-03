@@ -52,6 +52,7 @@
               {% if pending_friend_requests_count %}
               <span class="nav-badge">{{ pending_friend_requests_count }}</span>
               {% endif %}
+              {% if unread_chat_count %}<span class="nav-badge nav-chat-badge">{{ unread_chat_count }}</span>{% endif %}
             </button>
             <div class="nav-dropdown-menu" id="friends-dropdown-menu">
               <a href="{% url 'friends_list' %}">{% tr "nav.friends_list" %}</a>

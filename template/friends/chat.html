@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static tr_tags %}
+
+{% block title %}{% tr "chat.title" %} {{ friend.username }} - EduQuests{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/friend_chat.css' %}" />
+{% endblock %}
+
+{% block main_content %}
+<div class="friend-chat-page page-enter">
+  <div class="friend-chat-shell reveal-scale">
+    <header class="friend-chat-header">
+      <a href="{% url 'friends_list' %}" class="friend-chat-back" aria-label="{% tr 'chat.back_friends' %}">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </a>
+      <div class="friend-chat-peer">
+        <div class="friend-chat-avatar">{{ friend.username|first|upper }}</div>
+        <div>
+          <h1>{{ friend.username }}</h1>
+          <p id="chat-presence-label" class="friend-chat-presence" data-online="{% if friend_presence.is_online %}1{% else %}0{% endif %}" data-last-seen="{{ friend_presence.last_seen }}">
+            {% if friend_presence.is_online %}{% tr "chat.online" %}{% else %}{% tr "chat.offline" %}{% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="friend-chat-header-actions">
+        <button type="button" class="friend-chat-icon-btn" id="chat-search-btn" title="{% tr 'chat.search' %}">🔍</button>
+      </div>
+    </header>
+
+    <div id="chat-search-panel" class="friend-chat-search-panel hidden">
+      <input type="text" id="chat-search-input" class="form-input" placeholder="{% tr 'chat.search_ph' %}" />
+      <div id="chat-search-results" class="friend-chat-search-results"></div>
+    </div>
+
+    <div id="chat-messages" class="friend-chat-messages">
+      <p id="chat-empty-hint" class="friend-chat-empty">{% tr "chat.empty" %}</p>
+    </div>
+
+    <div id="chat-typing" class="friend-chat-typing hidden">
+      <span class="typing-dots"><span></span><span></span><span></span></span>
+      <span id="chat-typing-text">{{ friend.username }} {% tr "chat.typing" %}</span>
+    </div>
+
+    <footer class="friend-chat-footer">
+      <div id="chat-connection" class="friend-chat-connection">{% tr "chat.connecting" %}</div>
+      <div class="friend-chat-compose">
+        <button type="button" class="friend-chat-icon-btn" id="chat-emoji-btn" title="{% tr 'chat.emoji' %}">😊</button>
+        <div id="chat-emoji-picker" class="friend-chat-emoji-picker hidden"></div>
+        <textarea id="chat-input" class="friend-chat-input" rows="1" placeholder="{% tr 'chat.placeholder' %}" maxlength="4000"></textarea>
+        <button type="button" class="btn btn-primary friend-chat-send" id="chat-send-btn">{% tr "chat.send" %}</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script id="chat-config" type="application/json">
+{
+  "roomId": {{ room.id }},
+  "friendId": {{ friend.id }},
+  "friendUsername": "{{ friend.username|escapejs }}",
+  "currentUserId": {{ request.user.id }},
+  "currentUsername": "{{ request.user.username|escapejs }}",
+  "wsPath": "/ws/chat/{{ room.id }}/",
+  "initialMessages": {{ messages_json|safe }},
+  "labels": {
+    "typing": "{% tr 'chat.typing' %}",
+    "online": "{% tr 'chat.online' %}",
+    "offline": "{% tr 'chat.offline' %}",
+    "lastSeen": "{% tr 'chat.last_seen' %}",
+    "edited": "{% tr 'chat.edited' %}",
+    "deleted": "{% tr 'chat.deleted' %}",
+    "edit": "{% tr 'chat.edit' %}",
+    "delete": "{% tr 'chat.delete' %}",
+    "deleteConfirm": "{% tr 'chat.delete_confirm' %}",
+    "save": "{% tr 'chat.save' %}",
+    "cancel": "{% tr 'chat.cancel' %}",
+    "noResults": "{% tr 'chat.no_results' %}",
+    "connecting": "{% tr 'chat.connecting' %}",
+    "connected": "{% tr 'chat.connected' %}",
+    "disconnected": "{% tr 'chat.disconnected' %}",
+    "justNow": "{% tr 'chat.just_now' %}"
+  }
+}
+</script>
+<script src="{% static 'js/friend_chat.js' %}"></script>
+{% endblock %}

@@ -91,3 +91,101 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"{self.notification_type} → {self.recipient.username}"
+
+
+class ChatRoom(models.Model):
+    """One private room per friend pair (normalized user1 < user2 by pk)."""
+
+    user1 = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="chat_rooms_as_user1",
+    )
+    user2 = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="chat_rooms_as_user2",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user1", "user2"],
+                name="unique_chat_room_pair",
+            ),
+        ]
+
+    def __str__(self):
+        return f"Chat #{self.pk}: {self.user1.username} ↔ {self.user2.username}"
+
+    def other_user(self, user):
+        if self.user1_id == user.pk:
+            return self.user2
+        return self.user1
+
+    def involves_user(self, user):
+        return self.user1_id == user.pk or self.user2_id == user.pk
+
+
+class ChatMessage(models.Model):
+    room = models.ForeignKey(
+        ChatRoom,
+        on_delete=models.CASCADE,
+        related_name="messages",
+    )
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="chat_messages_sent",
+    )
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_edited = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return f"Msg #{self.pk} in room {self.room_id}"
+
+
+class ChatReadState(models.Model):
+    """Per-user last read timestamp in a room."""
+
+    room = models.ForeignKey(
+        ChatRoom,
+        on_delete=models.CASCADE,
+        related_name="read_states",
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="chat_read_states",
+    )
+    last_read_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["room", "user"],
+                name="unique_chat_read_state",
+            ),
+        ]
+
+
+class UserPresence(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="presence",
+    )
+    is_online = models.BooleanField(default=False)
+    last_seen = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        status = "online" if self.is_online else "offline"
+        return f"{self.user.username} ({status})"

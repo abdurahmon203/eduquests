@@ -33,11 +33,17 @@
           <span>🎯 {% tr "common.level" %} {{ item.level }}</span>
           <span>🔥 {{ item.streak }} {% tr "friends.streak_days" %}</span>
         </div>
-        <form method="POST" action="{% url 'remove_friend' item.user.pk %}" class="friend-card-action">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{% url 'friends_list' %}" />
-          <button type="submit" class="btn btn-secondary btn-sm">{% tr "friends.remove" %}</button>
-        </form>
+        <div class="friend-card-actions">
+          <a href="{% url 'friend_chat' item.user.pk %}" class="btn btn-primary btn-sm friend-chat-btn">
+            💬 {% tr "friends.chat_btn" %}
+            {% if item.chat_unread %}<span class="chat-unread-badge">{{ item.chat_unread }}</span>{% endif %}
+          </a>
+          <form method="POST" action="{% url 'remove_friend' item.user.pk %}" class="friend-card-action">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'friends_list' %}" />
+            <button type="submit" class="btn btn-secondary btn-sm">{% tr "friends.remove" %}</button>
+          </form>
+        </div>
       </article>
       {% endfor %}
     </div>

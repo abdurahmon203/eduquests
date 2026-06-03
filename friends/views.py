@@ -17,6 +17,7 @@ from .services import (
     remove_friendship,
     send_friend_request,
 )
+from .chat_services import unread_counts_by_friend_ids
 from .social import get_social_hub_stats
 
 User = get_user_model()
@@ -42,6 +43,9 @@ def _annotate_users(users, viewer):
 def friends_list(request):
     friends = get_friends_queryset(request.user)
     friend_stats = _annotate_users(friends, request.user)
+    unread_map = unread_counts_by_friend_ids(request.user)
+    for item in friend_stats:
+        item["chat_unread"] = unread_map.get(item["user"].pk, 0)
     return render(
         request,
         "friends/list.html",
