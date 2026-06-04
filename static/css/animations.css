@@ -148,6 +148,11 @@
   overflow: hidden;
 }
 
+.ehsonnnn {
+  position: relative;
+  z-index: 3;
+}
+
 .motion-mesh::before,
 .motion-mesh::after {
   content: "";
