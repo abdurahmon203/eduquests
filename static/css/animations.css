@@ -153,6 +153,13 @@
   z-index: 3;
 }
 
+.hh11 {
+  color: #1e293b;
+  font-size: 32px;
+  position: relative;
+  z-index: 2;
+}
+
 .motion-mesh::before,
 .motion-mesh::after {
   content: "";
