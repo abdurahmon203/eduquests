@@ -637,6 +637,8 @@ nav a:hover::after, nav a.active::after {
   gap: 12px;
   border: var(--border-default);
   animation: float 4s ease-in-out infinite;
+  max-width: 180px;
+  overflow: hidden;
 }
 
 .fc-1 {
@@ -660,19 +662,34 @@ nav a:hover::after, nav a.active::after {
   align-items: center;
   justify-content: center;
   font-size: 18px;
+  flex-shrink: 0;
 }
 
 .fc-icon.cyan { background-color: #ecfeff; }
+
+.fc-text {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
 
 .fc-text h4 {
   font-size: 13px;
   font-weight: 700;
   color: var(--color-slate-900);
+  margin: 0 0 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .fc-text p {
   font-size: 11px;
   color: var(--color-slate-400);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 992px) {
@@ -1543,6 +1560,8 @@ footer {
   gap: 12px;
   position: relative;
   overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .subject-card::before,
@@ -1948,12 +1967,63 @@ footer {
   .profile-grid {
     grid-template-columns: 1fr;
   }
+
+  .profile-sidebar {
+    padding: 24px 20px;
+  }
+
+  .profile-card {
+    padding: 24px 20px;
+  }
 }
 
 @media (max-width: 768px) {
   .subject-grid,
   .level-grid {
     grid-template-columns: 1fr;
+  }
+
+  .floating-card {
+    max-width: 140px;
+    padding: 10px 14px;
+  }
+
+  .fc-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .fc-text h4 {
+    font-size: 12px;
+  }
+
+  .fc-text p {
+    font-size: 10px;
+  }
+
+  .notifications-container {
+    padding: 0 16px;
+  }
+
+  .notification-card {
+    padding: 20px;
+  }
+
+  .quiz-wrapper {
+    padding: 0 16px;
+  }
+
+  .quiz-question {
+    padding: 20px;
+  }
+
+  .result-wrapper {
+    padding: 0 16px;
+  }
+
+  .result-card {
+    padding: 32px 24px;
   }
 }
 
@@ -2036,6 +2106,9 @@ footer {
   border: 2px solid transparent;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: fadeInUp 0.5s ease backwards;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
 }
 
 .podium-card:hover {
@@ -2318,6 +2391,23 @@ footer {
 
   .lb-user {
     justify-content: center;
+  }
+
+  .friends-lb-hero-premium h1 {
+    font-size: 32px;
+  }
+
+  .friends-lb-hero-premium p {
+    font-size: 15px;
+  }
+
+  .friends-podium-premium {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .friends-podium-rank-1 {
+    order: -1;
   }
 }
 
@@ -2698,6 +2788,24 @@ footer {
   }
 }
 
+@media (max-width: 600px) {
+  .ai-tutor-hero h1 {
+    font-size: 28px;
+  }
+
+  .ai-tutor-hero p {
+    font-size: 15px;
+  }
+
+  .ai-tutor-sidebar {
+    padding: 20px;
+  }
+
+  .ai-tutor-chat-wrap {
+    height: min(60vh, 500px);
+  }
+}
+
 /* ==========================================================================
    DUMMY AND UTILITY CLASSES
    ========================================================================== */
@@ -2759,6 +2867,9 @@ footer {
   text-align: center;
   box-shadow: var(--shadow-md);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
 }
 
 .friend-card:hover {
@@ -2862,6 +2973,9 @@ footer {
   padding: 16px 20px;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.2s, transform 0.2s;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
 }
 
 .friend-search-card:hover {
@@ -3189,6 +3303,14 @@ footer {
     left: 16px;
     right: 16px;
   }
+
+  .friends-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .friends-requests-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Social hub stats */
@@ -3286,6 +3408,9 @@ footer {
   padding: 24px;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.2s, transform 0.2s;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
 }
 
 .notification-card:hover {
@@ -3399,6 +3524,8 @@ footer {
   box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .friend-glass-card:hover {
@@ -3560,6 +3687,8 @@ footer {
   border: 2px solid transparent;
   transition: transform 0.35s ease;
   overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .friends-podium-slot:hover {

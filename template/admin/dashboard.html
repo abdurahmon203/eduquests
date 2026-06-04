@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard - EduQuests{% endblock %}
+
+{% block main_content %}
+<div class="page-header admin-page-header page-enter">
+  <div class="container">
+    <h1 class="page-title">🛡️ Admin Dashboard</h1>
+    <p class="page-subtitle">Monitor and manage your EduQuests platform</p>
+  </div>
+</div>
+
+<section class="admin-section">
+  <div class="container">
+    <!-- Stats Grid -->
+    <div class="admin-stats-grid stagger-group">
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.05s">
+        <div class="admin-stat-icon admin-stat-users">👥</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ total_users }}</div>
+          <div class="admin-stat-label">Total Users</div>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.1s">
+        <div class="admin-stat-icon admin-stat-quizzes">📚</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ total_quizzes }}</div>
+          <div class="admin-stat-label">Total Quizzes</div>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.15s">
+        <div class="admin-stat-icon admin-stat-questions">❓</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ total_questions }}</div>
+          <div class="admin-stat-label">Total Questions</div>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.2s">
+        <div class="admin-stat-icon admin-stat-friendships">🤝</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ total_friendships }}</div>
+          <div class="admin-stat-label">Friendships</div>
+        </div>
+      </div>
+      
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.25s">
+        <div class="admin-stat-icon admin-stat-messages">💬</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ total_messages }}</div>
+          <div class="admin-stat-label">Messages</div>
+        </div>
+      </div>
+
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.3s">
+        <div class="admin-stat-icon admin-stat-xp">⭐</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ total_xp_earned }}</div>
+          <div class="admin-stat-label">Total XP Earned</div>
+        </div>
+      </div>
+
+      <div class="admin-stat-card reveal hover-lift" style="animation-delay: 0.35s">
+        <div class="admin-stat-icon admin-stat-growth">📈</div>
+        <div class="admin-stat-content">
+          <div class="admin-stat-value">{{ recent_users|length }}</div>
+          <div class="admin-stat-label">New Users (7d)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity and Users -->
+    <div class="admin-content-grid">
+      <div class="admin-panel reveal hover-lift">
+        <h2 class="admin-panel-title">📊 Recent Activity</h2>
+        {% if recent_activity %}
+        <div class="admin-activity-list">
+          {% for activity in recent_activity %}
+          <div class="admin-activity-item">
+            <div class="admin-activity-icon">
+              {% if activity.type == 'quiz_completion' %}✅{% elif activity.type == 'friendship' %}🤝{% else %}📌{% endif %}
+            </div>
+            <div class="admin-activity-details">
+              <div class="admin-activity-user">{{ activity.user }}</div>
+              <div class="admin-activity-desc">{{ activity.details }}</div>
+              <div class="admin-activity-time">{{ activity.time|timesince }} ago</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="admin-empty">No recent activity</div>
+        {% endif %}
+      </div>
+
+      <div class="admin-panel reveal hover-lift">
+        <h2 class="admin-panel-title">👤 Recent Users</h2>
+        {% if recent_users %}
+        <div class="admin-users-list">
+          {% for user in recent_users %}
+          <div class="admin-user-item">
+            <div class="admin-user-avatar">{{ user.username|first|upper }}</div>
+            <div class="admin-user-details">
+              <div class="admin-user-name">{{ user.username }}</div>
+              <div class="admin-user-email">{{ user.email }}</div>
+              <div class="admin-user-joined">Joined {{ user.date_joined|timesince }} ago</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="admin-empty">No recent users</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="admin-quick-actions reveal hover-lift">
+      <h2 class="admin-panel-title">⚡ Quick Management</h2>
+      <div class="admin-actions-grid">
+        <a href="/admin/" class="admin-action-btn">
+          <span class="admin-action-icon">🔧</span>
+          <span class="admin-action-text">Django Admin</span>
+        </a>
+        <a href="/admin/quizzes/question/" class="admin-action-btn">
+          <span class="admin-action-icon">❓</span>
+          <span class="admin-action-text">Manage Questions</span>
+        </a>
+        <a href="/admin/levels/level/" class="admin-action-btn">
+          <span class="admin-action-icon">📚</span>
+          <span class="admin-action-text">Manage Levels</span>
+        </a>
+        <a href="/admin/subjects/subject/" class="admin-action-btn">
+          <span class="admin-action-icon">�</span>
+          <span class="admin-action-text">Manage Subjects</span>
+        </a>
+        <a href="/admin/accounts/user/" class="admin-action-btn">
+          <span class="admin-action-icon">👤</span>
+          <span class="admin-action-text">Manage Users</span>
+        </a>
+        <a href="/admin/friends/friendship/" class="admin-action-btn">
+          <span class="admin-action-icon">🤝</span>
+          <span class="admin-action-text">Manage Friendships</span>
+        </a>
+        <a href="{% url 'friends_list' %}" class="admin-action-btn">
+          <span class="admin-action-icon">👥</span>
+          <span class="admin-action-text">View All Friends</span>
+        </a>
+        <a href="{% url 'leaderboard' %}" class="admin-action-btn">
+          <span class="admin-action-icon">🏆</span>
+          <span class="admin-action-text">Leaderboard</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Admin Dashboard Styles */
+.admin-page-header {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 50%, #7c3aed 100%);
+  color: white;
+}
+
+.admin-section {
+  padding: 48px 0 80px;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.admin-stat-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-md);
+  border: var(--border-default);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.admin-stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.admin-stat-users { background: linear-gradient(135deg, #6366f1, #818cf8); }
+.admin-stat-quizzes { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+.admin-stat-questions { background: linear-gradient(135deg, #10b981, #34d399); }
+.admin-stat-friendships { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.admin-stat-messages { background: linear-gradient(135deg, #ec4899, #f472b6); }
+.admin-stat-achievements { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+.admin-stat-xp { background: linear-gradient(135deg, #f97316, #fb923c); }
+.admin-stat-growth { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+
+.admin-stat-content {
+  flex: 1;
+}
+
+.admin-stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--color-slate-900);
+  line-height: 1.1;
+}
+
+.admin-stat-label {
+  font-size: 13px;
+  color: var(--color-slate-500);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.admin-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.admin-panel {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  border: var(--border-default);
+}
+
+.admin-panel-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-slate-900);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-slate-200);
+}
+
+.admin-activity-list,
+.admin-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-activity-item,
+.admin-user-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: var(--color-slate-50);
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+
+.admin-activity-item:hover,
+.admin-user-item:hover {
+  background: var(--color-slate-100);
+}
+
+.admin-activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-activity-details,
+.admin-user-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-activity-user,
+.admin-user-name {
+  font-weight: 600;
+  color: var(--color-slate-900);
+  font-size: 15px;
+}
+
+.admin-activity-desc,
+.admin-user-email {
+  color: var(--color-slate-600);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.admin-activity-time,
+.admin-user-joined {
+  color: var(--color-slate-400);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.admin-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.admin-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--color-slate-500);
+  font-size: 14px;
+}
+
+.admin-quick-actions {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  border: var(--border-default);
+}
+
+.admin-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.admin-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 20px;
+  background: var(--color-slate-50);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.admin-action-btn:hover {
+  background: var(--color-slate-100);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.admin-action-icon {
+  font-size: 32px;
+}
+
+.admin-action-text {
+  font-weight: 600;
+  color: var(--color-slate-700);
+  font-size: 14px;
+}
+
+/* Dark Mode for Admin Dashboard */
+[data-theme="dark"] .admin-stat-card,
+[data-theme="dark"] .admin-panel,
+[data-theme="dark"] .admin-quick-actions {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .admin-stat-value,
+[data-theme="dark"] .admin-panel-title,
+[data-theme="dark"] .admin-activity-user,
+[data-theme="dark"] .admin-user-name {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .admin-stat-label,
+[data-theme="dark"] .admin-activity-desc,
+[data-theme="dark"] .admin-user-email,
+[data-theme="dark"] .admin-activity-time,
+[data-theme="dark"] .admin-user-joined {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .admin-activity-item,
+[data-theme="dark"] .admin-user-item {
+  background: var(--bg-elevated);
+}
+
+[data-theme="dark"] .admin-activity-item:hover,
+[data-theme="dark"] .admin-user-item:hover {
+  background: var(--bg-card-hover);
+}
+
+[data-theme="dark"] .admin-activity-icon,
+[data-theme="dark"] .admin-empty {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .admin-action-btn {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .admin-action-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .admin-action-text {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .admin-content-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-actions-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+</style>
+{% endblock %}

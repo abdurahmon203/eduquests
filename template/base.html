@@ -69,6 +69,9 @@
             </div>
           </div>
           <a href="{% url 'profile' %}" class="{% if request.path == '/profile/' %}active{% endif %}">{% tr "nav.profile" %}</a>
+          {% if is_admin %}
+          <a href="{% url 'admin_dashboard' %}" class="{% if request.path == '/dashboard/' %}active{% endif %}">Admin</a>
+          {% endif %}
           {% endif %}
         </nav>
 

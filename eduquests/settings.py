@@ -91,6 +91,7 @@ TEMPLATES = [
                 "accounts.context_processors.eduquests_context",
                 "friends.context_processors.friends_context",
                 "eduquests.context_processors.i18n_theme_context",
+                "eduquests.context_processors.admin_context",
             ],
         },
     },
