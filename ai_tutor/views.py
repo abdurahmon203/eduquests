@@ -13,7 +13,6 @@ from .models import TutorQuestion, TutorResponse
 from .services.gemini_service import (
     generate_tutor_response,
     is_api_configured,
-    resolve_api_key,
 )
 
 logger = logging.getLogger(__name__)
@@ -90,7 +89,6 @@ def ai_status(request):
 @login_required
 @require_POST
 def ai_settings(request):
-    """Save Gemini API key in session (per browser, not stored in DB)."""
     try:
         payload = json.loads(request.body.decode("utf-8"))
     except json.JSONDecodeError:
