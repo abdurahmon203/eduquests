@@ -32,10 +32,8 @@ class StaticPagesTests(TestCase):
             'message': 'Hello, I have a question about courses.'
         }
         response = self.client.post(reverse('contact'), data=form_data)
-        # Should redirect to contact URL
         self.assertRedirects(response, reverse('contact'))
         
-        # Verify success message was created
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), "Your message has been sent successfully! We will get back to you shortly.")
@@ -47,7 +45,6 @@ class StaticPagesTests(TestCase):
             'message': ''
         }
         response = self.client.post(reverse('contact'), data=form_data)
-        # Should render contact page again with errors
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'contact.html')
         

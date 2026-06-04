@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth.password_validation import validate_password
-
 from eduquests.i18n_strings import get_text
-
 from .models import User
 
 
