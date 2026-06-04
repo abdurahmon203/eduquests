@@ -119,6 +119,7 @@ async function saveApiKey(test = true) {
   }
 }
 
+
 async function clearApiKey() {
   try {
     await fetch('/ai/settings/', {
