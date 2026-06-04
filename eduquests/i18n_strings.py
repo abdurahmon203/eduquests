@@ -1,9 +1,5 @@
-"""UI translations: en, ru, tg (Tajik)."""
-
 SUPPORTED_LANGS = ("en", "ru", "tg")
-
 LANG_LABELS = {"en": "EN", "ru": "RU", "tg": "TG"}
-
 STRINGS = {
     # Nav & site
     "nav.home": {"en": "Home", "ru": "Главная", "tg": "Асосӣ"},
